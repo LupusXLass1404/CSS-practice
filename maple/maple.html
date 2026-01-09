@@ -30,7 +30,9 @@
             <div class="inventory__main">
                 <!-- 排序功能／總物品欄數等 -->
                 <div class="inventory__controls">
-                    <div class="inventory__sort">Sort</div>
+                    <div class="inventory__sort btn">☰ 排序</div>
+                    <div class="inventory__sort btn">✖︎ 固定</div>
+                    <div class="inventory__sort btn">✧ 鎖定</div>
                     <div class="inventory__capacity">8 / 20</div>
                 </div>
 
@@ -47,7 +49,7 @@
 
                 <!-- 金錢顯示、物品強化或使用的快速導航按鈕 -->
                 <div class="inventory__status">
-                    <div class="inventory__money">money 1000</div>
+                    <div class="inventory__money">1億 3310萬 6917</div>
                 </div>
             </div>
 
@@ -61,7 +63,7 @@
         const gridClass = document.getElementsByClassName("inventory__grid");
 
         let tmpSlots = "";
-        for (let i = 0; i < 32; i++) {
+        for (let i = 0; i < 64; i++) {
             tmpSlots += `
                 <div class="inventory__slot">1</div>
             `;

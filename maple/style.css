@@ -14,28 +14,40 @@ body {
     background-color: #58576d;
 }
 
-/* ====================== 物品欄 ====================== */
-.inventory {
-    background-color: rgb(30, 31, 34);
-    border: 1px solid var(--border-light);
-    outline: 1px solid var(--border);
-    margin: 40px auto;
-}
-
+/* ====================== 共用區 ====================== */
 .inventory,
 .inventory * {
     border-radius: 8px;
 }
 
+.btn {
+    background-color: #a1a9b4;
+    color: #eeeeee;
+    padding: 0.125rem 1rem;
+    border-radius: 5rem;
+}
+
+/* ====================== 物品欄 ====================== */
+.inventory {
+    background-color: rgb(30, 31, 34);
+    border: 1px solid var(--border-light);
+    color: rgba(47, 54, 59, 0.875);
+    margin: 40px 40px;
+    display: inline-block;
+}
+
 /* ============= 頂部／導覽 ============= */
 .inventory__nav {
     border-bottom: 1px solid var(--border-light);
-    outline: 1px solid var(--border);
+    padding: var(--inventory-padding-y) var(--inventory-padding-x) 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .inventory__title {
     color: #d0f000;
     font-weight: bolder;
+    margin-bottom: 0.75rem;
 }
 
 .inventory__tabs {
@@ -44,36 +56,52 @@ body {
 }
 
 .inventory__tab-item {
-    background-color: #6b7785;
     color: #aeb8c4;
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-align: center;
+    flex: 1;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    font-weight: bold;
+    text-align: center;
+    background-color: #6b7785;
+    padding: 4px;
+}
+
+.inventory__tab-item {
+    background-color: #6b7785;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #aeb8c4;
+    font-weight: bold;
+    text-align: center;
     padding: 4px;
     flex: 1;
 }
 
 /* ============= 主要內容 ============= */
 .inventory__container {
-    margin-top: 8px;
+    padding: var(--inventory-padding-y) var(--inventory-padding-x);
 }
 
 /* ==== 主要區域 ==== */
-
-.inventory__controls {
+.inventory__main {
     background-color: #d0d4d7;
+    padding: 0.75rem;
 }
 
+/* 排序功能／總物品欄數等 */
+.inventory__controls {
+    margin-bottom: 0.8rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* 物品格子區 */
 .inventory__grid {
     background-color: #eeeeee;
     padding: 8px;
-
-    display: grid;
-    grid-template-columns: auto auto auto auto;
+    display: inline-grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
     gap: 8px;
-
 }
 
 .inventory__slot {
@@ -81,7 +109,9 @@ body {
     aspect-ratio: 1/1;
     background-color: #e2e2e2;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
-
 }
+
+/* 金錢顯示、物品強化或使用的快速導航按鈕 */
+
 
 /* ==== 底部區域。用於搜尋跟看倉庫 ==== */
