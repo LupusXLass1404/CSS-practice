@@ -10,33 +10,32 @@
 
 <body>
     <div class="inventory">
-        <!-- ============= 上面部分 ============= -->
+        <!-- ============= 頂部／導覽 ============= -->
         <div class="inventory__nav">
             <div class="inventory__title">INVENTORY</div>
-            <div class="inventory__tabBar">
-                <div class="inventory__tab">裝備</div>
-                <div class="inventory__tab">消耗</div>
-                <div class="inventory__tab">其它</div>
-                <div class="inventory__tab">裝飾</div>
-                <div class="inventory__tab">現金</div>
-                <div class="inventory__tab">時裝</div>
+            <div class="inventory__tabs">
+                <div class="inventory__tab-item">裝備</div>
+                <div class="inventory__tab-item">消耗</div>
+                <div class="inventory__tab-item">其它</div>
+                <div class="inventory__tab-item">裝飾</div>
+                <div class="inventory__tab-item">現金</div>
+                <div class="inventory__tab-item">時裝</div>
             </div>
         </div>
 
-        <!-- ============= 下面部分 ============= -->
-        <div class="inventory__body">
+        <!-- ============= 主要內容 ============= -->
+        <div class="inventory__container">
 
-            <!-- ====body頂部==== -->
-            <div class="inventory__top">
-                <!-- 放排序功能，跟總物品欄數 -->
-                <div class="inventory__header">
+            <!-- ==== 主要區域 ==== -->
+            <div class="inventory__main">
+                <!-- 排序功能／總物品欄數等 -->
+                <div class="inventory__controls">
                     <div class="inventory__sort">Sort</div>
-                    <div class="inventory__total">8 / 20</div>
+                    <div class="inventory__capacity">8 / 20</div>
                 </div>
 
                 <!-- 物品格子區 -->
-                <div class="inventory__slotGrid">
-
+                <div class="inventory__grid">
                     <div class="inventory__slot">1</div>
                     <div class="inventory__slot">1</div>
                     <div class="inventory__slot">1</div>
@@ -46,20 +45,20 @@
                     <div class="inventory__slot">1</div>
                 </div>
 
-                <!-- 金錢顯示、裝備強化 -->
-                <div class="inventory__footer">
+                <!-- 金錢顯示、物品強化或使用的快速導航按鈕 -->
+                <div class="inventory__status">
                     <div class="inventory__money">money 1000</div>
                 </div>
             </div>
 
-            <!-- ====body底層，用於搜尋跟看倉庫==== -->
-            <div class="inventory__bottom">
+            <!-- ==== 底部區域。用於搜尋跟看倉庫 ==== -->
+            <div class="inventory__utility">
             </div>
         </div>
     </div>
 
     <script>
-        const slotGridClass = document.getElementsByClassName("inventory__slotGrid");
+        const gridClass = document.getElementsByClassName("inventory__grid");
 
         let tmpSlots = "";
         for (let i = 0; i < 32; i++) {
@@ -67,7 +66,7 @@
                 <div class="inventory__slot">1</div>
             `;
         }
-        slotGridClass[0].innerHTML = tmpSlots;
+        gridClass[0].innerHTML = tmpSlots;
 
         console.log(slotGridClass);
     </script>

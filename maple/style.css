@@ -4,6 +4,8 @@
     margin: 0;
     --border: #2f363b;
     --border-light: #3c464c;
+    --inventory-padding-x: 1rem;
+    --inventory-padding-y: 1rem;
 }
 
 * {}
@@ -17,7 +19,6 @@ body {
     background-color: rgb(30, 31, 34);
     border: 1px solid var(--border-light);
     outline: 1px solid var(--border);
-    padding: 16px;
     margin: 40px auto;
 }
 
@@ -26,7 +27,7 @@ body {
     border-radius: 8px;
 }
 
-/* ============= 上面部分 ============= */
+/* ============= 頂部／導覽 ============= */
 .inventory__nav {
     border-bottom: 1px solid var(--border-light);
     outline: 1px solid var(--border);
@@ -37,12 +38,12 @@ body {
     font-weight: bolder;
 }
 
-.inventory__tabBar {
+.inventory__tabs {
     display: flex;
     gap: 8px;
 }
 
-.inventory__tab {
+.inventory__tab-item {
     background-color: #6b7785;
     color: #aeb8c4;
     font-size: 1.1rem;
@@ -54,17 +55,18 @@ body {
     flex: 1;
 }
 
-/* ============= 下面部分 ============= */
-.inventory__body {
+/* ============= 主要內容 ============= */
+.inventory__container {
     margin-top: 8px;
 }
 
-/* ====body頂部==== */
-.inventory__top {
+/* ==== 主要區域 ==== */
+
+.inventory__controls {
     background-color: #d0d4d7;
 }
 
-.inventory__slotGrid {
+.inventory__grid {
     background-color: #eeeeee;
     padding: 8px;
 
@@ -82,4 +84,4 @@ body {
 
 }
 
-/* ====body底層，用於搜尋跟看倉庫==== */
+/* ==== 底部區域。用於搜尋跟看倉庫 ==== */
