@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="inventory">
+        <!-- ============= 上面部分 ============= -->
+        <div class="inventory__nav">
+            <div class="inventory__title">INVENTORY</div>
+            <div class="inventory__tabBar">
+                <div class="inventory__tab">裝備</div>
+                <div class="inventory__tab">消耗</div>
+                <div class="inventory__tab">其它</div>
+                <div class="inventory__tab">裝飾</div>
+                <div class="inventory__tab">現金</div>
+                <div class="inventory__tab">時裝</div>
+            </div>
+        </div>
+
+        <!-- ============= 下面部分 ============= -->
+        <div class="inventory__body">
+
+            <!-- ====body頂部==== -->
+            <div class="inventory__top">
+                <!-- 放排序功能，跟總物品欄數 -->
+                <div class="inventory__header">
+                    <div class="inventory__sort">Sort</div>
+                    <div class="inventory__total">8 / 20</div>
+                </div>
+
+                <!-- 物品格子區 -->
+                <div class="inventory__slotGrid">
+
+                    <div class="inventory__slot">1</div>
+                    <div class="inventory__slot">1</div>
+                    <div class="inventory__slot">1</div>
+                    <div class="inventory__slot">1</div>
+                    <div class="inventory__slot">1</div>
+                    <div class="inventory__slot">1</div>
+                    <div class="inventory__slot">1</div>
+                </div>
+
+                <!-- 金錢顯示、裝備強化 -->
+                <div class="inventory__footer">
+                    <div class="inventory__money">money 1000</div>
+                </div>
+            </div>
+
+            <!-- ====body底層，用於搜尋跟看倉庫==== -->
+            <div class="inventory__bottom">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slotGridClass = document.getElementsByClassName("inventory__slotGrid");
+
+        let tmpSlots = "";
+        for (let i = 0; i < 32; i++) {
+            tmpSlots += `
+                <div class="inventory__slot">1</div>
+            `;
+        }
+        slotGridClass[0].innerHTML = tmpSlots;
+
+        console.log(slotGridClass);
+    </script>
+</body>
+
+</html>

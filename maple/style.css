@@ -1,0 +1,85 @@
+:root {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    --border: #2f363b;
+    --border-light: #3c464c;
+}
+
+* {}
+
+body {
+    background-color: #58576d;
+}
+
+/* ====================== 物品欄 ====================== */
+.inventory {
+    background-color: rgb(30, 31, 34);
+    border: 1px solid var(--border-light);
+    outline: 1px solid var(--border);
+    padding: 16px;
+    margin: 40px auto;
+}
+
+.inventory,
+.inventory * {
+    border-radius: 8px;
+}
+
+/* ============= 上面部分 ============= */
+.inventory__nav {
+    border-bottom: 1px solid var(--border-light);
+    outline: 1px solid var(--border);
+}
+
+.inventory__title {
+    color: #d0f000;
+    font-weight: bolder;
+}
+
+.inventory__tabBar {
+    display: flex;
+    gap: 8px;
+}
+
+.inventory__tab {
+    background-color: #6b7785;
+    color: #aeb8c4;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 4px;
+    flex: 1;
+}
+
+/* ============= 下面部分 ============= */
+.inventory__body {
+    margin-top: 8px;
+}
+
+/* ====body頂部==== */
+.inventory__top {
+    background-color: #d0d4d7;
+}
+
+.inventory__slotGrid {
+    background-color: #eeeeee;
+    padding: 8px;
+
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 8px;
+
+}
+
+.inventory__slot {
+    width: 64px;
+    aspect-ratio: 1/1;
+    background-color: #e2e2e2;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+
+}
+
+/* ====body底層，用於搜尋跟看倉庫==== */

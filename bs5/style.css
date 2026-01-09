@@ -1,0 +1,23 @@
+:root {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+}
+
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 8px;
+
+    /* 現代 UI 框架普遍，不直接用純黑，而用深灰色或帶透明黑色 */
+    color: rgba(0, 0, 0, 0.875);
+    /* color: #212529; */
+
+    margin: 123px;
+}
+
+.card-header {}
+
+.card-body {}
+
+.card-footer {}
