@@ -3,10 +3,19 @@
     padding: 0;
     margin: 0;
     font-size: 16px;
+
+    --card-border: 1px solid rgba(0, 0, 0, 0.2);
+    --card-spacer: 1rem;
+    /* card-cap，card 的「蓋子」，指的是 .card-header 和 .card-footer
+    cap 本來就是「蓋子、頂部、封口」
+
+    在 UI 元件中，用來指「容器最上或最下那一塊固定區域」*/
+    --card-cap-color: rgba(211, 211, 211, 0.5);
+    --card-cap-padding: 0.5rem 1rem;
 }
 
 .card {
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    border: var(--card-border);
     border-radius: 8px;
 
     /* 現代 UI 框架普遍，不直接用純黑，而用深灰色或帶透明黑色 */
@@ -16,8 +25,18 @@
     margin: 123px;
 }
 
-.card-header {}
+.card-header {
+    background-color: var(--card-cap-color);
+    border-bottom: var(--card-border);
+    padding: var(--card-cap-padding);
+}
 
-.card-body {}
+.card-body {
+    padding: var(--card-spacer);
+}
 
-.card-footer {}
+.card-footer {
+    border-top: var(--card-border);
+    background-color: var(--card-cap-color);
+    padding: var(--card-cap-padding);
+}
