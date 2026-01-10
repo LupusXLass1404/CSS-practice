@@ -1,13 +1,13 @@
 :root {
-    box-sizing: border-box;
-
-    margin: 0;
-    padding: 0;
     --border: #2f363b;
     --border-light: #3c464c;
     --inventory-padding-x: 1rem;
     --inventory-padding-y: 1rem;
     --border-radius-pill: 50rem;
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 * {}
@@ -34,7 +34,6 @@ body {
 
 .btn--action {
     border: 1px solid #3297b2;
-
     background-color: #36b8d0;
 }
 
@@ -54,14 +53,14 @@ body {
 .inventory__nav {
     padding: var(--inventory-padding-y) var(--inventory-padding-x) 0;
     border-bottom: 1px solid var(--border-light);
-    border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .inventory__title {
+    margin-bottom: 0.75rem;
     font-weight: bolder;
     color: #d0f000;
-    margin-bottom: 0.75rem;
 }
 
 .inventory__tabs {
@@ -78,28 +77,28 @@ body {
 
     padding: 4px;
     border: 1px solid var(--border-light);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
 
     font-weight: bold;
-    text-align: center;
     color: #aeb8c4;
+    text-align: center;
 
     background-color: #6b7785;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
 }
 
 .inventory__tab-item {
     flex: 1;
 
+    border-bottom-right-radius: 0;
     padding: 4px;
+    border-bottom-left-radius: 0;
 
     font-weight: bold;
-    text-align: center;
     color: #aeb8c4;
+    text-align: center;
 
     background-color: #6b7785;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
 }
 
 /* ============= 主要內容 ============= */
@@ -110,33 +109,31 @@ body {
 /* ==== 主要區域 ==== */
 .inventory__main {
     padding: 0.75rem;
-
     background-color: #d0d4d7;
 }
 
 /* 排序功能／總物品欄數等 */
 .inventory__controls {
     display: flex;
-    margin-bottom: 0.8rem;
     gap: 0.5rem;
+    margin-bottom: 0.8rem;
 }
 
 /* 物品格子區 */
 .inventory__grid {
     display: inline-grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    gap: 8px;
 
     padding: 8px;
 
     background-color: #eeeeee;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
-    gap: 8px;
 }
 
 .inventory__slot {
-    width: 64px;
-
-    background-color: #e2e2e2;
     aspect-ratio: 1/1;
+    width: 64px;
+    background-color: #e2e2e2;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 

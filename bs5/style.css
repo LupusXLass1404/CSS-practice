@@ -1,10 +1,4 @@
 :root {
-    box-sizing: border-box;
-
-    margin: 0;
-    padding: 0;
-
-    font-size: 16px;
 
     --card-border: 1px solid rgba(0, 0, 0, 0.2);
     --card-spacer: 1rem;
@@ -14,6 +8,11 @@
     在 UI 元件中，用來指「容器最上或最下那一塊固定區域」*/
     --card-cap-color: rgba(211, 211, 211, 0.5);
     --card-cap-padding: 0.5rem 1rem;
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
 }
 
 .card {
@@ -29,9 +28,8 @@
 
 .card-header {
     padding: var(--card-cap-padding);
-
-    background-color: var(--card-cap-color);
     border-bottom: var(--card-border);
+    background-color: var(--card-cap-color);
 }
 
 .card-body {
@@ -40,7 +38,6 @@
 
 .card-footer {
     padding: var(--card-cap-padding);
-
-    background-color: var(--card-cap-color);
     border-top: var(--card-border);
+    background-color: var(--card-cap-color);
 }
