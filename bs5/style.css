@@ -1,7 +1,9 @@
 :root {
     box-sizing: border-box;
-    padding: 0;
+
     margin: 0;
+    padding: 0;
+
     font-size: 16px;
 
     --card-border: 1px solid rgba(0, 0, 0, 0.2);
@@ -15,20 +17,21 @@
 }
 
 .card {
+    /* color: #212529; */
+
+    margin: 123px;
     border: var(--card-border);
     border-radius: 8px;
 
     /* 現代 UI 框架普遍，不直接用純黑，而用深灰色或帶透明黑色 */
     color: rgba(0, 0, 0, 0.875);
-    /* color: #212529; */
-
-    margin: 123px;
 }
 
 .card-header {
+    padding: var(--card-cap-padding);
+
     background-color: var(--card-cap-color);
     border-bottom: var(--card-border);
-    padding: var(--card-cap-padding);
 }
 
 .card-body {
@@ -36,7 +39,8 @@
 }
 
 .card-footer {
-    border-top: var(--card-border);
-    background-color: var(--card-cap-color);
     padding: var(--card-cap-padding);
+
+    background-color: var(--card-cap-color);
+    border-top: var(--card-border);
 }
