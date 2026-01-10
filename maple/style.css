@@ -23,18 +23,30 @@ body {
 }
 
 .btn {
+    cursor: pointer;
+
     padding: 0.125rem 1rem;
-    border: 1px solid rgba(60, 70, 76, 0.375);
+    border: 1px solid rgba(60, 70, 76, 0.625);
+    border-bottom: 3px solid rgba(60, 70, 76, 0.625);
     border-radius: var(--border-radius-pill);
 
     color: #eeeeee;
 
-    background-color: #a1a9b4;
+    background: linear-gradient(to bottom,
+            color-mix(in srgb, #a1a9b4 90%, white),
+            color-mix(in srgb, #a1a9b4 90%, black)) padding-box;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.375),
+        inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+        0 1px 1px rgba(60, 70, 76, 0.375);
 }
 
 .btn--action {
     border: 1px solid #3297b2;
-    background-color: #36b8d0;
+    border-bottom: 3px solid #3297b2;
+    background: linear-gradient(to bottom,
+            color-mix(in srgb, #36b8d0 90%, white),
+            color-mix(in srgb, #36b8d0 90%, black));
 }
 
 /* ====================== 物品欄 ====================== */
@@ -90,8 +102,8 @@ body {
 .inventory__tab-item {
     flex: 1;
 
-    border-bottom-right-radius: 0;
     padding: 4px;
+    border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 
     font-weight: bold;
