@@ -1,9 +1,10 @@
 :root {
-    --border: #2f363b;
+    --border: #282F37;
     --border-light: #3c464c;
     --inventory-padding-x: 1rem;
     --inventory-padding-y: 1rem;
     --border-radius-pill: 50rem;
+    --text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
 
     box-sizing: border-box;
     margin: 0;
@@ -14,6 +15,7 @@
 
 body {
     background-color: #58576d;
+    background-image: url("https://picsum.photos/id/42/1980/1024");
 }
 
 /* ====================== 共用區 ====================== */
@@ -21,6 +23,8 @@ body {
 .inventory * {
     border-radius: 8px;
 }
+
+.container {}
 
 .btn {
     cursor: pointer;
@@ -34,6 +38,7 @@ body {
     border-radius: var(--border-radius-pill);
 
     color: #eeeeee;
+    text-shadow: var(--text-shadow);
 
     background: linear-gradient(to bottom,
             color-mix(in srgb, #a1a9b4 90%, white),
@@ -65,25 +70,37 @@ body {
     display: inline-block;
 
     margin: 40px 40px;
-    border: 1px solid var(--border-light);
+    border: 1px solid var(--border);
 
     color: rgba(47, 54, 59, 0.875);
 
-    background-color: rgb(30, 31, 34);
+    background-color: rgba(27, 31, 37, 0.75);
+    /* background: linear-gradient(to bottom,
+            color-mix(in srgb, rgba(8, 17, 35, 0.75) 90%, white),
+            color-mix(in srgb, rgba(8, 17, 35, 0.75) 90%, black)); */
+    box-shadow:
+        inset 1px 1px 0 0 rgba(199, 218, 255, 0.125),
+        inset -1px -1px 0 0 rgba(199, 218, 255, 0.125),
+        inset 0 5px 5px -2px rgba(199, 218, 255, 0.125);
 }
 
 /* ============= 頂部／導覽 ============= */
 .inventory__nav {
     padding: var(--inventory-padding-y) var(--inventory-padding-x) 0;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border);
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+
+    box-shadow:
+        0px 1px 0 0 rgba(199, 218, 255, 0.125);
 }
 
 .inventory__title {
     margin-bottom: 0.75rem;
+    font-family: Geneva, sans-serif;
     font-weight: bolder;
     color: #d0f000;
+    text-shadow: var(--text-shadow), var(--text-shadow);
 }
 
 .inventory__tabs {
@@ -99,7 +116,7 @@ body {
     flex: 1;
 
     padding: 4px;
-    border: 1px solid var(--border-light);
+    border: 1px solid var(--border);
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 
