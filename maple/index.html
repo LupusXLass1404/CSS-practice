@@ -15,7 +15,7 @@
             <div class="inventory__title">INVENTORY</div>
             <div class="inventory__tabs">
                 <div class="inventory__tab-item">裝備</div>
-                <div class="inventory__tab-item">消耗</div>
+                <div class="inventory__tab-item action">消耗</div>
                 <div class="inventory__tab-item">其它</div>
                 <div class="inventory__tab-item">裝飾</div>
                 <div class="inventory__tab-item">現金</div>
@@ -32,8 +32,8 @@
                 <div class="inventory__controls">
                     <div class="inventory__controls-left">
                         <div class="inventory__sort btn btn--action">☰ 排序</div>
-                        <div class="inventory__sort btn">✖︎ 固定</div>
-                        <div class="inventory__sort btn">✧ 鎖定</div>
+                        <div class="inventory__sort btn"><span class="icon">📌</span> 固定</div>
+                        <div class="inventory__sort btn"><span class="icon">🔒</span> 鎖定</div>
                     </div>
                     <div class="inventory__controls-right">
                         <span class="capacity__text">SLOT</span>
@@ -43,23 +43,55 @@
 
                 <!-- 物品格子區 -->
                 <div class="inventory__grid">
-                    <div class="inventory__slot">1</div>
-                    <div class="inventory__slot">1</div>
-                    <div class="inventory__slot">1</div>
-                    <div class="inventory__slot">1</div>
-                    <div class="inventory__slot">1</div>
-                    <div class="inventory__slot">1</div>
-                    <div class="inventory__slot">1</div>
+                    <div class="inventory__slot">
+                        <div class="inventory__slot-text">1</div>
+                    </div>
+                    <div class="inventory__slot">
+                        <div class="inventory__slot-text">1</div>
+                    </div>
+                    <div class="inventory__slot action">
+                        <div class="inventory__slot-text">1</div>
+                    </div>
+                    <div class="inventory__slot">
+                        <div class="inventory__slot-text">1</div>
+                    </div>
+
                 </div>
 
                 <!-- 金錢顯示、物品強化或使用的快速導航按鈕 -->
                 <div class="inventory__status">
-                    <div class="inventory__money">1億 3310萬 6917</div>
+                    <div class="inventory__currency">
+                        <div class="inventory__currency-bar">
+                            <div class="inventory__currency-icon money">⏺︎</div>
+                            1億 3310萬 6917
+                        </div>
+                        <div class="inventory__currency-bar">
+                            <div class="inventory__currency-icon point">🅟</div>
+                            6
+                        </div>
+                    </div>
+                    <div class="inventory__status-actions">
+                        <div class="btn btn--disabled"><span class="icon">🧪</span> 分解/合成</div>
+                        <div class="btn btn--action"><span class="icon">🔗</span> 裝備繼承</div>
+                        <div class="btn btn--action"><span class="icon">⚒️</span> 裝備強化</div>
+                    </div>
                 </div>
             </div>
 
             <!-- ==== 底部區域。用於搜尋跟看倉庫 ==== -->
             <div class="inventory__utility">
+                <div class="inventory__search-bar">
+                    <div class="btn btn--black">❔</div>
+                    <input type="text" class="inventory__search-input" placeholder="請輸入要搜尋的內容。 ">
+                    <div class="search-icon icon">🔍</div>
+                </div>
+                <div class="inventory__utility-actions">
+                    <div class="btn btn--black"><span class="icon">⚔️</span> 裝備</div>
+                    <div class="btn btn--black"><span class="icon">🏪</span> 商店</div>
+                    <div class="btn btn--black"><span class="icon">📦</span> 倉庫</div>
+                    <div class="btn btn--black"><span class="icon">👑</span> BOSS獎勵</div>
+                    <div class="btn btn--black"><span class="icon">🎒</span> 背包</div>
+                </div>
             </div>
         </div>
     </div>
@@ -68,12 +100,14 @@
         const gridClass = document.getElementsByClassName("inventory__grid");
 
         let tmpSlots = "";
-        for (let i = 0; i < 64; i++) {
+        for (let i = 0; i < 60 + 64; i++) {
             tmpSlots += `
-                <div class="inventory__slot">1</div>
+                <div class="inventory__slot">
+
+                </div>
             `;
         }
-        gridClass[0].innerHTML = tmpSlots;
+        gridClass[0].innerHTML += tmpSlots;
 
         console.log(slotGridClass);
     </script>

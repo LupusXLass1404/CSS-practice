@@ -1,22 +1,26 @@
+/** @define inventory */
 :root {
     --border: #282F37;
     --border-light: #3c464c;
     --inventory-padding-x: 1rem;
     --inventory-padding-y: 1rem;
     --border-radius-pill: 50rem;
-    --text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+    --text-shadow: 1px 1px 0 rgb(0 0 0 / 25%);
 
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-* {}
+* {
+    font-family: Geneva, sans-serif;
+}
 
 body {
     background-color: #58576d;
     background-image: url("https://picsum.photos/id/42/1980/1024");
 }
+
 
 /* ====================== 共用區 ====================== */
 .inventory,
@@ -24,7 +28,14 @@ body {
     border-radius: 8px;
 }
 
-.container {}
+/* .container {} */
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.5;
+    filter: grayscale(100%) brightness(200%);
+}
 
 .btn {
     cursor: pointer;
@@ -33,24 +44,25 @@ body {
     position: relative;
 
     padding: 0.125rem 1rem;
-    border: 1px solid rgba(60, 70, 76, 0.625);
-    border-bottom: 3px solid rgba(60, 70, 76, 0.625);
+    border: 1px solid rgb(60 70 76 / 62.5%);
+    border-bottom: 3px solid rgb(60 70 76 / 62.5%);
     border-radius: var(--border-radius-pill);
 
-    color: #eeeeee;
+    font-weight: bold;
+    color: #eee;
     text-shadow: var(--text-shadow);
 
     background: linear-gradient(to bottom,
             color-mix(in srgb, #a1a9b4 90%, white),
             color-mix(in srgb, #a1a9b4 90%, black)) padding-box;
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.375),
-        inset 0 -1px 1px rgba(255, 255, 255, 0.25),
-        0 1px 1px rgba(60, 70, 76, 0.375);
+        inset 0 1px 0 rgb(255 255 255 / 37.5%),
+        inset 0 -1px 1px rgb(255 255 255 / 25%),
+        0 1px 1px rgb(60 70 76 / 37.5%);
 }
 
 .btn:active {
-    border: 1px solid rgba(60, 70, 76, 0.625);
+    border: 1px solid rgb(60 70 76 / 62.5%);
 }
 
 .btn--action {
@@ -65,23 +77,40 @@ body {
     border: 1px solid #3297b2;
 }
 
+.btn--disabled {
+    color: rgb(255 255 255 / 62.5%);
+}
+
+.btn--black {
+    border: 1px solid rgb(36 41 46 / 62.5%);
+    border-bottom: 3px solid rgb(36 41 46 / 62.5%);
+
+    color: #c5cfd8;
+
+    background: linear-gradient(to bottom,
+            color-mix(in srgb, #313a43 95%, white),
+            color-mix(in srgb, #313a43 95%, black)) padding-box;
+    box-shadow:
+        inset 0 1px 0 rgb(214 219 255 / 37.5%),
+        inset 0 -1px 1px rgb(214 219 255 / 12.5%),
+        0 1px 1px rgb(36 41 46 / 37.5%);
+
+}
+
 /* ====================== 物品欄 ====================== */
 .inventory {
     display: inline-block;
 
-    margin: 40px 40px;
+    margin: 10px;
     border: 1px solid var(--border);
 
-    color: rgba(47, 54, 59, 0.875);
+    color: rgb(47 54 59 / 87.5%);
 
-    background-color: rgba(27, 31, 37, 0.75);
-    /* background: linear-gradient(to bottom,
-            color-mix(in srgb, rgba(8, 17, 35, 0.75) 90%, white),
-            color-mix(in srgb, rgba(8, 17, 35, 0.75) 90%, black)); */
+    background-color: rgb(28 41 49 / 75%);
     box-shadow:
-        inset 1px 1px 0 0 rgba(199, 218, 255, 0.125),
-        inset -1px -1px 0 0 rgba(199, 218, 255, 0.125),
-        inset 0 5px 5px -2px rgba(199, 218, 255, 0.125);
+        inset 1px 1px 0 0 rgb(199 218 255 / 12.5%),
+        inset -1px -1px 0 0 rgb(199 218 255 / 12.5%),
+        inset 0 5px 5px -2px rgb(199 218 255 / 12.5%);
 }
 
 /* ============= 頂部／導覽 ============= */
@@ -92,11 +121,12 @@ body {
     border-bottom-left-radius: 0;
 
     box-shadow:
-        0px 1px 0 0 rgba(199, 218, 255, 0.125);
+        0 1px 0 0 rgb(199 218 255 / 12.5%);
 }
 
 .inventory__title {
     margin-bottom: 0.75rem;
+
     font-family: Geneva, sans-serif;
     font-weight: bolder;
     color: #d0f000;
@@ -109,47 +139,51 @@ body {
 }
 
 .inventory__tab-item {
+    cursor: pointer;
+
     position: relative;
-    /* 為了跟底線貼合 */
-    top: 1px;
 
     flex: 1;
 
     padding: 4px;
     border: 1px solid var(--border);
+    border-bottom: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 
     font-weight: bold;
     color: #aeb8c4;
     text-align: center;
+    text-shadow: var(--text-shadow);
 
     background-color: #6b7785;
+    box-shadow:
+        inset 0 1px 0 0 rgb(255 255 255 / 25%),
+        inset -1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
 }
 
-.inventory__tab-item {
-    flex: 1;
-
-    padding: 4px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-
-    font-weight: bold;
-    color: #aeb8c4;
-    text-align: center;
-
-    background-color: #6b7785;
+.inventory__tab-item.action {
+    top: -1px;
+    color: white;
+    background: linear-gradient(to bottom,
+            color-mix(in srgb, #36b8d0 90%, white),
+            color-mix(in srgb, #36b8d0 90%, black));
 }
 
 /* ============= 主要內容 ============= */
 .inventory__container {
-    padding: var(--inventory-padding-y) var(--inventory-padding-x);
+    padding: 0.625rem var(--inventory-padding-x);
 }
 
 /* ==== 主要區域 ==== */
 .inventory__main {
-    padding: 0.75rem;
+    padding: 0.625rem;
     background-color: #d0d4d7;
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 75%),
+        0 2px 1px rgb(0 0 0 / 75%);
 }
 
 /* 排序功能／總物品欄數等 */
@@ -177,8 +211,8 @@ body {
 
     font-size: 1rem;
     font-weight: bold;
-    color: hsla(0, 0%, 0%, 0);
-    text-shadow: rgb(136, 153, 163) 0 0 1px, rgba(116, 133, 143, 0.5) 1px 0 0, rgb(255, 255, 255, .75) 0 1px 1px;
+    color: hsl(0deg 0% 0% / 0%);
+    text-shadow: rgb(136 153 163) 0 0 1px, rgb(116 133 143 / 50%) 1px 0 0, rgb(255 255 255 / 75%) 0 1px 1px;
 }
 
 .capacity__count {
@@ -190,35 +224,160 @@ body {
 
     background-color: #afb7bd;
     box-shadow:
-        inset 0 1px 1px 0 rgba(0, 0, 0, 0.25),
-        inset 0 -0.5px 1px 0 rgba(0, 0, 0, 0.125),
-        0 1px 1px 0 rgba(255, 255, 255, 0.5);
+        inset 0 1px 1px 0 rgb(0 0 0 / 25%),
+        inset 0 -0.5px 1px 0 rgb(0 0 0 / 12.5%),
+        0 1px 1px 0 rgb(255 255 255 / 50%);
 }
 
 .capacity__count span {
-    color: #ffffff;
+    color: #fff;
 }
 
 /* 物品格子區 */
 .inventory__grid {
     display: inline-grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
     gap: 8px;
 
-    padding: 8px;
+    padding: 0.75rem;
 
-    background-color: #eeeeee;
+    background-color: #eee;
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 75%),
+        0 3px 1px rgb(0 0 0 / 12.5%);
 }
 
 .inventory__slot {
+    position: relative;
+
     aspect-ratio: 1/1;
     width: 64px;
+
     background-color: #e2e2e2;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow:
+        inset 0 1px 0 rgb(0 0 0 / 5%),
+        inset 0 2px 5px rgb(0 0 0 / 12.5%),
+        0 1px 0 rgb(255 255 255 / 100%);
 }
 
+.inventory__slot.action {
+    background-color: #50CAE0;
+    box-shadow:
+        0 1px 0 rgb(255 255 255 / 100%);
+}
+
+.inventory__slot-text {
+    position: absolute;
+    bottom: 1px;
+
+    font-weight: bold;
+    color: white;
+    color: transparent;
+
+    background: linear-gradient(to bottom, #fff, #9CF);
+    background-clip: text;
+
+    -webkit-text-stroke: 1px rgb(0 0 0);
+}
 
 /* 金錢顯示、物品強化或使用的快速導航按鈕 */
+.inventory__status {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
 
+    margin-top: 0.75rem;
+}
+
+.inventory__currency,
+.inventory__status-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.inventory__currency {
+    flex-grow: 1;
+}
+
+.inventory__currency-bar {
+    position: relative;
+
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
+
+    max-width: 256px;
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--border-radius-pill);
+
+    line-height: 1.5rem;
+
+    background-color: white;
+    box-shadow:
+        0 -2px 1px rgb(0 0 0 / 12.5%);
+}
+
+.inventory__currency-icon {
+    position: absolute;
+    left: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.inventory__currency-icon.money {
+    color: #e6940f;
+
+    -webkit-text-stroke: 3px #ffde52;
+}
+
+.inventory__currency-icon.point {
+    color: gray;
+}
+
+.inventory__status-actions {
+    font-size: 1.1rem;
+}
 
 /* ==== 底部區域。用於搜尋跟看倉庫 ==== */
+.inventory__utility {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+}
+
+.inventory__search-bar,
+.inventory__utility-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.inventory__search-bar {
+    position: relative;
+    flex-grow: 1;
+}
+
+.inventory__search-input {
+    flex: 1;
+
+    max-width: 256px;
+    padding: 0.25rem 1rem;
+    border: 1px solid rgb(0 0 0 / 25%);
+    border-radius: var(--border-radius-pill);
+
+    color: white;
+
+    background-color: rgb(0 0 0 / 12.5%);
+    box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+}
+
+.inventory__search-input::placeholder {
+    font-size: 1rem;
+}
+
+.search-icon {
+    position: relative;
+    right: 2.5rem;
+
+}
