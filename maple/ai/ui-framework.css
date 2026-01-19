@@ -1,0 +1,707 @@
+@charset "UTF-8";
+
+/**
+ * ==========================================
+ * 通用遊戲 UI 框架 (Gaming UI Framework)
+ * ==========================================
+ * 從特定的背包組件重構為通用、可複用的遊戲UI組件系統
+ * 支持：面板、分頁、按鈕、格子、狀態條等
+ */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap");
+
+/* ======================================
+   變數系統 (Variables System)
+   ====================================== */
+:root {
+  /* ========== 主題配色 ========== */
+  --theme-primary: #36b8d0; /* 主要操作色 */
+  --theme-secondary: #6b7785; /* 次要背景色 */
+  --theme-dark: #313a43; /* 深色背景 */
+  --theme-light: #d0d4d7; /* 淺色背景 */
+  --theme-accent: #d0f000; /* 強調色 */
+
+  /* ========== 邊框色系 ========== */
+  --color-border-primary: #282F37;
+  --color-border-light: #3c464c;
+  --color-border-action: var(--theme-primary);
+  --color-border-black: rgb(36 41 46 / 62.5%);
+
+  /* ========== 文字色系 ========== */
+  --color-text-primary: #eee;
+  --color-text-secondary: #aeb8c4;
+  --color-text-light: #c5cfd8;
+  --color-text-muted: rgb(47 54 59 / 87.5%);
+  --color-text-title: var(--theme-accent);
+  --color-text-count: #6f7c85;
+  --color-text-white: white;
+
+  /* ========== 背景色系 ========== */
+  --color-bg-panel: rgb(28 41 49 / 75%);
+  --color-bg-tab: var(--theme-secondary);
+  --color-bg-tab-active: var(--theme-primary);
+  --color-bg-content: var(--theme-light);
+  --color-bg-grid: #eee;
+  --color-bg-slot: #e2e2e2;
+  --color-bg-slot-active: var(--theme-primary);
+  --color-bg-button-default: #a1a9b4;
+  --color-bg-button-action: var(--theme-primary);
+  --color-bg-button-black: var(--theme-dark);
+  --color-bg-statusbar: #afb7bd;
+  --color-bg-search: rgb(0 0 0 / 12.5%);
+
+  /* ========== 陰影和光澤效果 ========== */
+  --color-shadow-text: 1px 1px 0 rgb(0 0 0 / 25%);
+  --color-highlight: rgb(199 218 255 / 12.5%);
+  --color-shine-bright: rgb(255 255 255 / 37.5%);
+  --color-shine-medium: rgb(255 255 255 / 25%);
+  --color-shine-light: rgb(255 255 255 / 12.5%);
+
+  /* ========== 貨幣和狀態指示 ========== */
+  --color-currency-gold: #e6940f;
+  --color-currency-gold-shine: #ffde52;
+  --color-currency-point: gray;
+
+  /* ========== 尺寸和間距系統 ========== */
+  --size-spacing-xs: 0.125rem;
+  --size-spacing-sm: 0.5rem;
+  --size-spacing-md: 1rem;
+  --size-spacing-lg: 0.75rem;
+  --size-spacing-xl: 1.5rem;
+  --size-padding-horizontal: var(--size-spacing-md);
+  --size-padding-vertical: var(--size-spacing-md);
+  --size-padding-compact: 0.625rem;
+  --size-gap-small: var(--size-spacing-sm);
+  --size-gap-medium: 8px;
+  --size-gap-large: 12px;
+  --size-border-radius-pill: 50rem;
+  --size-border-radius-default: 8px;
+  --size-border-radius-compact: 4px;
+
+  /* ========== 組件特定尺寸 ========== */
+  --size-button-padding-x: var(--size-spacing-md);
+  --size-button-padding-y: var(--size-spacing-xs);
+  --size-slot-width: 64px;
+  --size-slot-gap: 8px;
+  --size-panel-min-width: 320px;
+  --size-panel-max-width: none;
+
+  /* ========== 其他 ========== */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Geneva, "Noto Sans TC", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Geneva, "Noto Sans TC", sans-serif;
+}
+
+/* ======================================
+   通用 Utility Classes（工具類別）
+   ====================================== */
+
+/* 形狀工具 */
+.u-pill {
+  border-radius: var(--size-border-radius-pill);
+}
+
+.u-round {
+  border-radius: var(--size-border-radius-default);
+}
+
+.u-compact-round {
+  border-radius: var(--size-border-radius-compact);
+}
+
+/* 內凹陰影 */
+.u-inner-shadow {
+  box-shadow: inset 1px 1px 0 0 var(--color-highlight), inset -1px -1px 0 0 var(--color-highlight), inset 0 5px 5px -2px var(--color-highlight);
+}
+
+.u-inner-shadow--light {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), inset -1px 0 0 0 rgb(255 255 255 / 25%), inset 1px 0 0 0 rgb(255 255 255 / 25%);
+}
+
+.u-inner-shadow--deep {
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 25%), inset -1px 0 0 0 rgb(255 255 255 / 25%), inset 1px 0 0 0 rgb(255 255 255 / 25%), inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
+}
+
+/* 外部陰影 */
+.u-shadow-button {
+  box-shadow: var(--color-shine-bright) 0 1px 0, var(--color-shine-medium) 0 -0.5px 1px, rgb(60 70 76 / 37.5%) 0 1px 1px;
+}
+
+.u-shadow-frame {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 2px 1px rgb(0 0 0 / 75%);
+}
+
+.u-shadow-grid {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 3px 1px rgb(0 0 0 / 12.5%);
+}
+
+.u-shadow-border-bottom {
+  box-shadow: 0 1px 0 0 var(--color-highlight);
+}
+
+.u-shadow-shine-top {
+  box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
+}
+
+.u-shadow-glow {
+  box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+}
+
+/* 基礎元素樣式 */
+* {
+  border-radius: var(--size-border-radius-default);
+}
+
+.ui-icon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.5;
+  filter: grayscale(100%) brightness(200%);
+}
+
+/* ======================================
+   按鈕組件 (Button Component)
+   ====================================== */
+.btn {
+  cursor: pointer;
+  user-select: none;
+     user-select: none;
+          user-select: none;
+
+  position: relative;
+
+  padding: var(--size-button-padding-y) var(--size-button-padding-x);
+  border: 1px solid rgb(60 70 76 / 62.5%);
+  border-bottom: 3px solid rgb(60 70 76 / 62.5%);
+  border-radius: var(--size-border-radius-pill);
+
+  font-weight: bold;
+  color: var(--color-text-primary);
+  text-shadow: var(--color-shadow-text);
+
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bg-button-default) 90%, white), color-mix(in srgb, var(--color-bg-button-default) 90%, black)) padding-box;
+  box-shadow: inset 0 1px 0 var(--color-shine-bright), inset 0 -1px 1px var(--color-shine-medium), 0 1px 1px rgb(60 70 76 / 37.5%);
+
+  transition: all 0.1s ease-in-out;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  border: 1px solid rgb(60 70 76 / 62.5%);
+}
+
+/* 按鈕修飾符 */
+.btn--action {
+  --btn-border: var(--color-border-action);
+  --btn-bg: var(--color-bg-button-action);
+
+  border: 1px solid var(--btn-border);
+  border-bottom: 3px solid var(--btn-border);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--btn-bg) 90%, white), color-mix(in srgb, var(--btn-bg) 90%, black));
+}
+
+.btn--action:active {
+  border: 1px solid var(--btn-border);
+}
+
+.btn--disabled {
+  cursor: not-allowed;
+  color: rgb(255 255 255 / 62.5%);
+  opacity: 0.6;
+}
+
+.btn--black {
+  border: 1px solid var(--color-border-black);
+  border-bottom: 3px solid var(--color-border-black);
+
+  color: var(--color-text-light);
+
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bg-button-black) 95%, white), color-mix(in srgb, var(--color-bg-button-black) 95%, black)) padding-box;
+  box-shadow: inset 0 1px 0 rgb(214 219 255 / 37.5%), inset 0 -1px 1px rgb(214 219 255 / 12.5%), 0 1px 1px rgb(36 41 46 / 37.5%);
+}
+
+.btn--small {
+  padding: 0.08rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.btn--large {
+  padding: 0.2rem 1.2rem;
+  font-size: 1.1rem;
+}
+
+/* ======================================
+   面板組件 (Panel Component)
+   ====================================== */
+.ui-panel {
+  display: inline-block;
+
+  width: auto;
+  min-width: var(--size-panel-min-width);
+  max-width: var(--size-panel-max-width);
+  margin: 10px;
+  border: 1px solid var(--color-border-primary);
+
+  color: var(--color-text-muted);
+
+  background-color: var(--color-bg-panel);
+  box-shadow: inset 1px 1px 0 0 var(--color-highlight), inset -1px -1px 0 0 var(--color-highlight), inset 0 5px 5px -2px var(--color-highlight);
+}
+
+/* 面板變體 */
+.ui-panel--fullwidth {
+  display: block;
+  width: 100%;
+}
+
+.ui-panel--fixed {
+  width: 400px;
+}
+
+.ui-panel--centered {
+  margin: 10px auto;
+}
+
+/* ======================================
+   面板頭部 (Panel Header/Navigation)
+   ====================================== */
+.ui-panel__header {
+  padding: var(--size-padding-vertical) var(--size-padding-horizontal) 0;
+  border-bottom: 1px solid var(--color-border-primary);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+  box-shadow: var(--color-highlight) 0 1px 0 0;
+}
+
+.ui-panel__title {
+  margin-bottom: 0.75rem;
+
+  font-family: Geneva, sans-serif;
+  font-weight: bolder;
+  color: var(--color-text-title);
+  text-shadow: var(--color-shadow-text), var(--color-shadow-text);
+}
+
+.ui-panel__title-secondary {
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: var(--color-text-secondary);
+}
+
+/* ======================================
+   分頁組件 (Tab Component)
+   ====================================== */
+.ui-tabs {
+  display: flex;
+  gap: var(--size-gap-medium);
+}
+
+.ui-tab {
+  cursor: pointer;
+
+  position: relative;
+
+  flex: 1;
+
+  padding: 4px;
+  border: 1px solid var(--color-border-primary);
+  border-bottom: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+  font-weight: bold;
+  color: var(--color-text-secondary);
+  text-align: center;
+  text-shadow: var(--color-shadow-text);
+
+  background-color: var(--color-bg-tab);
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 25%), inset -1px 0 0 0 rgb(255 255 255 / 25%), inset 1px 0 0 0 rgb(255 255 255 / 25%), inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
+
+  transition: all 0.2s ease-in-out;
+}
+
+.ui-tab:hover {
+  background-color: color-mix(in srgb, var(--color-bg-tab), white 10%);
+}
+
+.ui-tab.active {
+  top: -1px;
+  color: var(--color-text-white);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bg-tab-active) 90%, white), color-mix(in srgb, var(--color-bg-tab-active) 90%, black));
+}
+
+/* ======================================
+   內容容器 (Content Container)
+   ====================================== */
+.ui-panel__content {
+  padding: var(--size-padding-compact) var(--size-padding-horizontal);
+}
+
+.ui-panel__body {
+  padding: var(--size-padding-compact);
+  background-color: var(--color-bg-content);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 2px 1px rgb(0 0 0 / 75%);
+}
+
+/* ======================================
+   控制條 (Control Bar)
+   ====================================== */
+.ui-control-bar {
+  display: flex;
+  gap: var(--size-gap-small);
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 0.8rem;
+}
+
+.ui-control-bar__left {
+  display: flex;
+  gap: var(--size-gap-small);
+}
+
+.ui-control-bar__right {
+  display: flex;
+  gap: var(--size-gap-small);
+  align-items: center;
+  font-family: Geneva, sans-serif;
+}
+
+/* ======================================
+   狀態條組件 (Status Bar Component)
+   ====================================== */
+.ui-status-bar {
+  position: relative;
+
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+
+  max-width: 256px;
+  padding: var(--size-spacing-xs) var(--size-spacing-sm);
+  border-radius: var(--size-border-radius-pill);
+
+  line-height: 1.5rem;
+
+  background-color: white;
+  box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
+}
+
+.ui-status-bar__icon {
+  position: absolute;
+  left: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.ui-status-bar__icon--gold {
+  color: var(--color-currency-gold);
+
+  -webkit-text-stroke: 3px var(--color-currency-gold-shine);
+}
+
+.ui-status-bar__icon--point {
+  color: var(--color-currency-point);
+}
+
+.ui-status-bar__value {
+  margin-left: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.ui-status-bar__label {
+  display: inline-block;
+
+  font-size: 1rem;
+  font-weight: bold;
+  color: hsl(0deg 0% 0% / 0%);
+  text-shadow: rgb(136 153 163) 0 0 1px, rgb(116 133 143 / 50%) 1px 0 0, rgb(255 255 255 / 75%) 0 1px 1px;
+}
+
+/* ======================================
+   網格組件 (Grid Component)
+   ====================================== */
+.ui-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--size-slot-width), 1fr));
+  gap: var(--size-slot-gap);
+
+  padding: 0.75rem;
+
+  background-color: var(--color-bg-grid);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 3px 1px rgb(0 0 0 / 12.5%);
+}
+
+/* 網格變體 */
+.ui-grid--fixed {
+  grid-template-columns: repeat(16, minmax(var(--size-slot-width), 1fr));
+}
+
+.ui-grid--4col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ui-grid--fullwidth {
+  display: grid;
+  width: 100%;
+}
+
+/* ======================================
+   格子/位置組件 (Slot Component)
+   ====================================== */
+.ui-slot {
+  cursor: pointer;
+
+  position: relative;
+
+  aspect-ratio: 1/1;
+  width: var(--size-slot-width);
+  min-height: var(--size-slot-width);
+
+  background-color: var(--color-bg-slot);
+  box-shadow: inset 0 1px 0 rgb(0 0 0 / 5%), inset 0 2px 5px rgb(0 0 0 / 12.5%), 0 1px 0 rgb(255 255 255);
+
+  transition: all 0.15s ease-in-out;
+}
+
+.ui-slot:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.ui-slot.active,
+.ui-slot.selected {
+  background-color: var(--color-bg-slot-active);
+  box-shadow: 0 1px 0 rgb(255 255 255), 0 0 8px var(--theme-primary);
+}
+
+.ui-slot.empty {
+  opacity: 0.5;
+  background-color: rgb(200 200 200 / 30%);
+}
+
+.ui-slot.disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
+
+.ui-slot__content {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.ui-slot__text {
+  position: absolute;
+  bottom: 1px;
+
+  font-weight: bold;
+  color: transparent;
+
+  background: linear-gradient(to bottom, #fff, #9CF);
+  background-clip: text;
+          background-clip: text;
+
+  -webkit-text-stroke: 1px rgb(0 0 0);
+}
+
+.ui-slot__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 50%;
+
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+
+  background-color: var(--theme-primary);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+}
+
+/* ======================================
+   搜尋條組件 (Search Bar Component)
+   ====================================== */
+.ui-search-bar {
+  position: relative;
+
+  display: flex;
+  flex-grow: 1;
+  gap: var(--size-gap-small);
+  align-items: center;
+
+  margin-top: 0.75rem;
+}
+
+.ui-search-input {
+  flex: 1;
+
+  max-width: 256px;
+  padding: 0.25rem var(--size-padding-horizontal);
+  border: 1px solid rgb(0 0 0 / 25%);
+  border-radius: var(--size-border-radius-pill);
+
+  font-size: 0.95rem;
+  color: var(--color-text-white);
+
+  background-color: var(--color-bg-search);
+  box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.ui-search-input:focus {
+  background-color: rgb(0 0 0 / 25%);
+  outline: none;
+  box-shadow: rgb(255 255 255 / 35%) 0 1px 3px 0;
+}
+
+.ui-search-input::placeholder {
+  font-size: 1rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+.ui-search-input::placeholder {
+  font-size: 1rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+.ui-search-icon {
+  pointer-events: none;
+  position: relative;
+  right: 2.5rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+/* ======================================
+   底部操作區 (Footer/Actions)
+   ====================================== */
+.ui-panel__footer {
+  display: flex;
+  gap: var(--size-gap-small);
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 0.75rem;
+}
+
+.ui-action-group {
+  display: flex;
+  gap: var(--size-gap-small);
+  align-items: center;
+}
+
+.ui-action-group--left {
+  flex-grow: 1;
+}
+
+.ui-action-group--center {
+  justify-content: center;
+}
+
+.ui-action-group--right {
+  justify-content: flex-end;
+}
+
+/* ======================================
+   數值顯示組件 (Value Display)
+   ====================================== */
+.ui-value-box {
+  padding: var(--size-spacing-xs) var(--size-button-padding-x);
+  border-radius: var(--size-border-radius-pill);
+
+  font-weight: bolder;
+  color: var(--color-text-count);
+
+  background-color: var(--color-bg-statusbar);
+  box-shadow: inset 0 1px 1px 0 rgb(0 0 0 / 25%), inset 0 -0.5px 1px 0 rgb(0 0 0 / 12.5%), 0 1px 1px 0 rgb(255 255 255 / 50%);
+}
+
+.ui-value-box span {
+  font-weight: 900;
+  color: var(--color-text-white);
+}
+
+.ui-value-box.highlight {
+  color: var(--theme-primary);
+  background: linear-gradient(135deg, rgb(54 184 208 / 20%), rgb(54 184 208 / 10%));
+}
+
+/* ======================================
+   響應式佈局 (Responsive)
+   ====================================== */
+@media (width <= 768px) {
+  :root {
+    --size-panel-min-width: 280px;
+  }
+
+  .ui-grid--fixed {
+    grid-template-columns: repeat(8, minmax(var(--size-slot-width), 1fr));
+  }
+
+  .ui-panel--fixed {
+    width: 100%;
+    max-width: calc(100% - 20px);
+  }
+
+  .ui-control-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ui-control-bar__right {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+@media (width <= 480px) {
+  :root {
+    --size-slot-width: 48px;
+    --size-slot-gap: 6px;
+  }
+
+  .ui-grid--fixed {
+    grid-template-columns: repeat(4, minmax(var(--size-slot-width), 1fr));
+  }
+
+  .ui-tabs {
+    gap: var(--size-gap-small);
+  }
+
+  .ui-tab {
+    padding: 2px;
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    padding: 0.1rem 0.6rem;
+    font-size: 0.9rem;
+  }
+}

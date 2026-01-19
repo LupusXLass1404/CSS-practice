@@ -1,0 +1,807 @@
+@charset "UTF-8";
+
+/**
+ * ============================================================================
+ * 遊戲 UI 框架 - 專業 SCSS 架構 (Gaming UI Framework - Professional SCSS)
+ * ============================================================================
+ * 
+ * 架構說明：
+ * - 完全巢狀化：所有子元素使用 & 語法嵌套在父元素內
+ * - 狀態管理：所有 :hover、:active、:focus 直接寫在元素內部
+ * - 代碼複用：使用 @mixin 提取重複邏輯
+ * - 變數管理：所有設計 token 使用 SCSS 變數定義
+ * 
+ * 編譯說明：
+ * 使用 node-sass 或 dart-sass 編譯：
+ * $ sass ui-framework.scss ui-framework.css
+ */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap");
+
+/* ============================================================================
+   第一段：SCSS 變數定義 (Variables)
+   ============================================================================ */
+
+/* ============================================================================
+   第二段：SCSS Mixins 定義 (Mixins)
+   ============================================================================ */
+
+/**
+ * @mixin glass-panel
+ * 玻璃面板效果：背景色混合 + 內陰影
+ * 用於：面板、內容區域等需要層疊深度的元素
+ */
+
+/**
+ * @mixin glass-panel-light
+ * 輕微玻璃效果：淡化的內陰影
+ */
+
+/**
+ * @mixin glass-panel-deep
+ * 深層玻璃效果：淡化 + 底部漸變陰影
+ */
+
+/**
+ * @mixin pill-shape
+ * 膠囊形狀：圓角、邊框、漸變背景
+ * 用於：按鈕、搜尋框等圓形元素
+ */
+
+/**
+ * @mixin flex-center
+ * 彈性盒對齐：常用的 flexbox 對齐方式
+ * $direction: flex 方向 (row / column)
+ * $justify: justify-content 對齐
+ * $align: align-items 對齐
+ */
+
+/**
+ * @mixin flex-gap
+ * 彈性盒 + 間隙：flex 容器加上間隙
+ * $gap: 間隙大小
+ * $direction: flex 方向
+ */
+
+/**
+ * @mixin shadow-button
+ * 按鈕陰影：外部陰影效果
+ */
+
+/**
+ * @mixin shadow-frame
+ * 框線陰影：框線風格
+ */
+
+/**
+ * @mixin shadow-grid
+ * 網格陰影：格子風格
+ */
+
+/**
+ * @mixin interactive-state
+ * 互動狀態：:hover 和 :active 的通用效果
+ * $hover-filter: hover 時的 filter 值
+ * $active-transform: active 時的 transform 值
+ */
+
+/**
+ * @mixin slot-base
+ * 格子基礎：寬高 + 背景 + 陰影 + 互動
+ */
+
+/**
+ * @mixin gradient-text
+ * 漸變文字效果
+ */
+
+/**
+ * @mixin responsive-slot
+ * 響應式格子調整
+ * $size: 格子新尺寸
+ */
+
+/* ============================================================================
+   第三段：基礎樣式重置 (Base Styles)
+   ============================================================================ */
+:root {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Geneva, "Noto Sans TC", sans-serif;
+}
+
+* {
+  border-radius: 8px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Geneva, "Noto Sans TC", sans-serif;
+}
+
+/* ============================================================================
+   第四段：Utility Classes (工具類別)
+   ============================================================================ */
+.u-pill {
+  border-radius: 50rem;
+}
+
+.u-round {
+  border-radius: 8px;
+}
+
+.u-compact-round {
+  border-radius: 4px;
+}
+
+.u-inner-shadow {
+  background-color: rgb(28 41 49 / 75%);
+  box-shadow: inset 1px 1px 0 0 rgb(199 218 255 / 12.5%), inset -1px -1px 0 0 rgb(199 218 255 / 12.5%), inset 0 5px 5px -2px rgb(199 218 255 / 12.5%);
+}
+
+.u-inner-shadow--light {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), inset -1px 0 0 0 rgb(255 255 255 / 25%), inset 1px 0 0 0 rgb(255 255 255 / 25%);
+}
+
+.u-inner-shadow--deep {
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 25%), inset -1px 0 0 0 rgb(255 255 255 / 25%), inset 1px 0 0 0 rgb(255 255 255 / 25%), inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
+}
+
+.u-shadow-button {
+  box-shadow: rgb(255 255 255 / 37.5%) 0 1px 0, rgb(255 255 255 / 25%) 0 -0.5px 1px, rgb(60 70 76 / 37.5%) 0 1px 1px;
+}
+
+.u-shadow-frame {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 2px 1px rgb(0 0 0 / 75%);
+}
+
+.u-shadow-grid {
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 3px 1px rgb(0 0 0 / 12.5%);
+}
+
+.u-shadow-border-bottom {
+  box-shadow: 0 1px 0 0 rgb(199 218 255 / 12.5%);
+}
+
+.u-shadow-shine-top {
+  box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
+}
+
+.u-shadow-glow {
+  box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+}
+
+.ui-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0.5;
+  filter: grayscale(100%) brightness(200%);
+}
+
+/* ============================================================================
+   第五段：按鈕組件 (Button Component) - 完全巢狀
+   ============================================================================ */
+.btn {
+  cursor: pointer;
+  user-select: none;
+     user-select: none;
+          user-select: none;
+
+  position: relative;
+
+  padding: 0.125rem 1rem;
+  border: 1px solid rgb(60 70 76 / 62.5%);
+  border-bottom: 3px solid rgb(60 70 76 / 62.5%);
+  border-radius: 50rem;
+
+  color: #eee;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 25%);
+
+  background: linear-gradient(to bottom, color-mix(in srgb, #a1a9b4 90%, white), color-mix(in srgb, #a1a9b4 90%, black)) padding-box;
+  box-shadow: rgb(255 255 255 / 37.5%) 0 1px 0, rgb(255 255 255 / 25%) 0 -0.5px 1px, rgb(60 70 76 / 37.5%) 0 1px 1px;
+
+  transition: all 0.1s ease-in-out;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:active {
+  border: 1px solid rgb(60 70 76 / 62.5%);
+}
+
+.btn--action {
+  --btn-border: #36b8d0;
+  --btn-bg: #36b8d0;
+
+  border: 1px solid var(--btn-border);
+  border-bottom: 3px solid var(--btn-border);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--btn-bg) 90%, white), color-mix(in srgb, var(--btn-bg) 90%, black));
+}
+
+.btn--action:active {
+  border: 1px solid var(--btn-border);
+}
+
+.btn--disabled {
+  cursor: not-allowed;
+  color: rgb(255 255 255 / 62.5%);
+  opacity: 0.6;
+}
+
+.btn--black {
+  border: 1px solid rgb(36 41 46 / 62.5%);
+  border-bottom: 3px solid rgb(36 41 46 / 62.5%);
+
+  color: #c5cfd8;
+
+  background: linear-gradient(to bottom, color-mix(in srgb, #313a43 95%, white), color-mix(in srgb, #313a43 95%, black)) padding-box;
+  box-shadow: inset 0 1px 0 rgb(214 219 255 / 37.5%), inset 0 -1px 1px rgb(214 219 255 / 12.5%), 0 1px 1px rgb(36 41 46 / 37.5%);
+}
+
+.btn--small {
+  padding: 0.08rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.btn--large {
+  padding: 0.2rem 1.2rem;
+  font-size: 1.1rem;
+}
+
+/* ============================================================================
+   第六段：面板組件 (Panel Component) - 完全巢狀
+   ============================================================================ */
+.ui-panel {
+  display: inline-block;
+
+  width: auto;
+  min-width: 320px;
+  max-width: none;
+  margin: 10px;
+  border: 1px solid #282F37;
+
+  color: rgb(47 54 59 / 87.5%);
+
+  background-color: rgb(28 41 49 / 75%);
+  box-shadow: inset 1px 1px 0 0 rgb(199 218 255 / 12.5%), inset -1px -1px 0 0 rgb(199 218 255 / 12.5%), inset 0 5px 5px -2px rgb(199 218 255 / 12.5%);
+}
+
+.ui-panel__header {
+  padding: 1rem 1rem 0;
+  border-bottom: 1px solid #282F37;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+  box-shadow: rgb(199 218 255 / 12.5%) 0 1px 0 0;
+}
+
+.ui-panel__header-title {
+  margin-bottom: 0.75rem;
+
+  font-family: Geneva, sans-serif;
+  font-weight: bolder;
+  color: #d0f000;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 25%), 1px 1px 0 rgb(0 0 0 / 25%);
+}
+
+.ui-panel__header-title-secondary {
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #aeb8c4;
+}
+
+.ui-panel__tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.ui-panel__tabs-item {
+  cursor: pointer;
+
+  position: relative;
+
+  flex: 1;
+
+  padding: 4px;
+  border: 1px solid #282F37;
+  border-bottom: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+  font-weight: bold;
+  color: #aeb8c4;
+  text-align: center;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 25%);
+
+  background-color: #6b7785;
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 25%), inset -1px 0 0 0 rgb(255 255 255 / 25%), inset 1px 0 0 0 rgb(255 255 255 / 25%), inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
+
+  transition: all 0.2s ease-in-out;
+}
+
+.ui-panel__tabs-item:hover {
+  background-color: color-mix(in srgb, #6b7785, white 10%);
+}
+
+.ui-panel__tabs-item.active, .ui-panel__tabs-item--active {
+  top: -1px;
+  color: white;
+  background: linear-gradient(to bottom, color-mix(in srgb, #36b8d0 90%, white), color-mix(in srgb, #36b8d0 90%, black));
+}
+
+.ui-panel__content {
+  padding: 0.625rem 1rem;
+}
+
+.ui-panel__body {
+  padding: 0.625rem;
+  background-color: #d0d4d7;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 2px 1px rgb(0 0 0 / 75%);
+}
+
+.ui-panel__control-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 0.8rem;
+}
+
+.ui-panel__control-bar-left {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.ui-panel__control-bar-right {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+
+  font-family: Geneva, sans-serif;
+}
+
+.ui-panel__footer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 0.75rem;
+}
+
+.ui-panel--fullwidth {
+  display: block;
+  width: 100%;
+}
+
+.ui-panel--fixed {
+  width: 400px;
+}
+
+.ui-panel--centered {
+  margin: 10px auto;
+}
+
+/* 標籤快捷別名（為了相容性） */
+.ui-tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.ui-tabs .ui-tab {
+  cursor: pointer;
+
+  position: relative;
+
+  flex: 1;
+
+  padding: 4px;
+  border: 1px solid #282F37;
+  border-bottom: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+  font-weight: bold;
+  color: #aeb8c4;
+  text-align: center;
+  text-shadow: 1px 1px 0 rgb(0 0 0 / 25%);
+
+  background-color: #6b7785;
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 25%), inset -1px 0 0 0 rgb(255 255 255 / 25%), inset 1px 0 0 0 rgb(255 255 255 / 25%), inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
+
+  transition: all 0.2s ease-in-out;
+}
+
+.ui-tabs .ui-tab:hover {
+  background-color: color-mix(in srgb, #6b7785, white 10%);
+}
+
+.ui-tabs .ui-tab.active {
+  top: -1px;
+  color: white;
+  background: linear-gradient(to bottom, color-mix(in srgb, #36b8d0 90%, white), color-mix(in srgb, #36b8d0 90%, black));
+}
+
+/* ============================================================================
+   第七段：狀態條組件 (Status Bar Component) - 完全巢狀
+   ============================================================================ */
+.ui-status-bar {
+  position: relative;
+
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+
+  max-width: 256px;
+  padding: 0.125rem 0.5rem;
+  border-radius: 50rem;
+
+  line-height: 1.5rem;
+
+  background-color: white;
+  box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
+}
+
+.ui-status-bar__icon {
+  position: absolute;
+  left: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.ui-status-bar__icon--gold {
+  color: #e6940f;
+
+  -webkit-text-stroke: 3px #ffde52;
+}
+
+.ui-status-bar__icon--point {
+  color: gray;
+}
+
+.ui-status-bar__value {
+  margin-left: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.ui-status-bar__label {
+  display: inline-block;
+
+  font-size: 1rem;
+  font-weight: bold;
+  color: hsl(0deg 0% 0% / 0%);
+  text-shadow: rgb(136 153 163) 0 0 1px, rgb(116 133 143 / 50%) 1px 0 0, rgb(255 255 255 / 75%) 0 1px 1px;
+}
+
+/* ============================================================================
+   第八段：網格組件 (Grid Component) - 完全巢狀
+   ============================================================================ */
+.ui-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 8px;
+
+  padding: 0.75rem;
+
+  background-color: #eee;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 75%), 0 3px 1px rgb(0 0 0 / 12.5%);
+}
+
+.ui-grid--fixed {
+  grid-template-columns: repeat(16, minmax(64px, 1fr));
+}
+
+.ui-grid--4col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ui-grid--fullwidth {
+  display: grid;
+  width: 100%;
+}
+
+/* ============================================================================
+   第九段：格子組件 (Slot Component) - 完全巢狀
+   ============================================================================ */
+.ui-slot {
+  cursor: pointer;
+
+  position: relative;
+
+  aspect-ratio: 1/1;
+  width: 64px;
+  min-height: 64px;
+
+  background-color: #e2e2e2;
+  box-shadow: inset 0 1px 0 rgb(0 0 0 / 5%), inset 0 2px 5px rgb(0 0 0 / 12.5%), 0 1px 0 rgb(255 255 255);
+
+  transition: all 0.15s ease-in-out;
+}
+
+.ui-slot__content {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.ui-slot__text {
+  position: absolute;
+  bottom: 1px;
+
+  font-weight: bold;
+  color: transparent;
+
+  background: linear-gradient(to bottom, #fff, #9CF);
+  background-clip: text;
+          background-clip: text;
+
+  -webkit-text-stroke: 1px rgb(0 0 0);
+}
+
+.ui-slot__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 50%;
+
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+
+  background-color: #36b8d0;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+}
+
+.ui-slot:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.ui-slot.active, .ui-slot.selected, .ui-slot--active {
+  background-color: #36b8d0;
+  box-shadow: 0 1px 0 rgb(255 255 255), 0 0 8px #36b8d0;
+}
+
+.ui-slot.empty, .ui-slot--empty {
+  opacity: 0.5;
+  background-color: rgb(200 200 200 / 30%);
+}
+
+.ui-slot.disabled, .ui-slot--disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
+
+/* ============================================================================
+   第十段：搜尋條組件 (Search Bar Component) - 完全巢狀
+   ============================================================================ */
+.ui-search-bar {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  gap: 0.5rem;
+  align-items: center;
+
+  margin-top: 0.75rem;
+}
+
+.ui-search-bar__input {
+  flex: 1;
+
+  max-width: 256px;
+  padding: 0.25rem 1rem;
+  border: 1px solid rgb(0 0 0 / 25%);
+  border-radius: 50rem;
+
+  font-size: 0.95rem;
+  color: white;
+
+  background-color: rgb(0 0 0 / 12.5%);
+  box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.ui-search-bar__input:focus {
+  background-color: rgb(0 0 0 / 25%);
+  outline: none;
+  box-shadow: rgb(255 255 255 / 35%) 0 1px 3px 0;
+}
+
+.ui-search-bar__input::placeholder {
+  font-size: 1rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+.ui-search-bar__input::placeholder {
+  font-size: 1rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+.ui-search-bar__icon {
+  pointer-events: none;
+  position: relative;
+  right: 2.5rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+/* 別名相容性 */
+.ui-search-input {
+  flex: 1;
+
+  max-width: 256px;
+  padding: 0.25rem 1rem;
+  border: 1px solid rgb(0 0 0 / 25%);
+  border-radius: 50rem;
+
+  font-size: 0.95rem;
+  color: white;
+
+  background-color: rgb(0 0 0 / 12.5%);
+  box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.ui-search-input:focus {
+  background-color: rgb(0 0 0 / 25%);
+  outline: none;
+  box-shadow: rgb(255 255 255 / 35%) 0 1px 3px 0;
+}
+
+.ui-search-input::placeholder {
+  font-size: 1rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+.ui-search-input::placeholder {
+  font-size: 1rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+.ui-search-icon {
+  pointer-events: none;
+  position: relative;
+  right: 2.5rem;
+  color: rgb(255 255 255 / 50%);
+}
+
+/* ============================================================================
+   第十一段：數值顯示組件 (Value Box Component) - 完全巢狀
+   ============================================================================ */
+.ui-value-box {
+  padding: 0.125rem 1rem;
+  border-radius: 50rem;
+
+  font-weight: bolder;
+  color: #6f7c85;
+
+  background-color: #afb7bd;
+  box-shadow: inset 0 1px 1px 0 rgb(0 0 0 / 25%), inset 0 -0.5px 1px 0 rgb(0 0 0 / 12.5%), 0 1px 1px 0 rgb(255 255 255 / 50%);
+}
+
+.ui-value-box span {
+  font-weight: 900;
+  color: white;
+}
+
+.ui-value-box.highlight, .ui-value-box--highlight {
+  color: #36b8d0;
+  background: linear-gradient(135deg, rgb(54 184 208 / 20%), rgb(54 184 208 / 10%));
+}
+
+/* ============================================================================
+   第十二段：操作組件 (Action Group Component) - 完全巢狀
+   ============================================================================ */
+.ui-action-group {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ui-action-group--left {
+  flex-grow: 1;
+}
+
+.ui-action-group--center {
+  justify-content: center;
+}
+
+.ui-action-group--right {
+  justify-content: flex-end;
+}
+
+/* ============================================================================
+   第十三段：響應式設計 (Responsive Design)
+   ============================================================================ */
+@media (width <= 768px) {
+  :root {
+    --size-panel-min-width: 280px;
+  }
+
+  .ui-grid--fixed {
+    grid-template-columns: repeat(8, minmax(64px, 1fr));
+  }
+
+  .ui-panel--fixed {
+    width: 100%;
+    max-width: calc(100% - 20px);
+  }
+
+  .ui-panel__control-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ui-panel__control-bar-right {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+@media (width <= 480px) {
+  :root {
+    --size-slot-width: 48px;
+    --size-slot-gap: 6px;
+  }
+
+  .ui-grid--fixed {
+    grid-template-columns: repeat(4, minmax(64px, 1fr));
+  }
+
+  .ui-tabs {
+    gap: 0.5rem;
+  }
+
+  .ui-tab {
+    padding: 2px;
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    padding: 0.1rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .ui-search-input {
+    font-size: 0.9rem;
+  }
+}

@@ -1,19 +1,72 @@
 /** @define inventory */
-:root {
-    --border: #282F37;
-    --border-light: #3c464c;
-    --inventory-padding-x: 1rem;
-    --inventory-padding-y: 1rem;
-    --border-radius-pill: 50rem;
-    --text-shadow: 1px 1px 0 rgb(0 0 0 / 25%);
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap');
+
+:root {
+    /* ========== 顏色系統 ========== */
+
+    /* 邊框 */
+    --color-border-primary: #282F37;
+    --color-border-light: #3c464c;
+    --color-border-action: #3297b2;
+    --color-border-black: rgb(36 41 46 / 62.5%);
+
+    /* 文字 */
+    --color-text-primary: #eee;
+    --color-text-secondary: #aeb8c4;
+    --color-text-light: #c5cfd8;
+    --color-text-muted: rgb(47 54 59 / 87.5%);
+    --color-text-title: #d0f000;
+    --color-text-count: #6f7c85;
+    --color-text-white: white;
+
+    /* 背景 */
+    --color-bg-inventory: rgb(28 41 49 / 75%);
+    --color-bg-tab: #6b7785;
+    --color-bg-tab-action: #36b8d0;
+    --color-bg-main: #d0d4d7;
+    --color-bg-grid: #eee;
+    --color-bg-slot: #e2e2e2;
+    --color-bg-slot-active: #50CAE0;
+    --color-bg-button-default: #a1a9b4;
+    --color-bg-button-action: #36b8d0;
+    --color-bg-button-black: #313a43;
+    --color-bg-capacity: #afb7bd;
+    --color-bg-search: rgb(0 0 0 / 12.5%);
+
+    /* 陰影 */
+    --color-shadow-text: 1px 1px 0 rgb(0 0 0 / 25%);
+    --color-highlight: rgb(199 218 255 / 12.5%);
+    --color-shine-bright: rgb(255 255 255 / 37.5%);
+    --color-shine-medium: rgb(255 255 255 / 25%);
+    --color-shine-light: rgb(255 255 255 / 12.5%);
+
+    /* 貨幣 */
+    --color-currency-money: #e6940f;
+    --color-currency-money-shine: #ffde52;
+    --color-currency-point: gray;
+
+    /* ========== 尺寸系統 ========== */
+    --size-padding-x: 1rem;
+    --size-padding-y: 1rem;
+    --size-padding-compact: 0.625rem;
+    --size-padding-small: 0.5rem;
+    --size-padding-tiny: 0.125rem;
+    --size-border-radius-pill: 50rem;
+    --size-border-radius-default: 8px;
+    --size-border-radius-tab: 0;
+    --size-gap-small: 0.5rem;
+    --size-gap-medium: 8px;
+    --size-button-padding-x: 1rem;
+    --size-button-padding-y: 0.125rem;
+    --size-slot-width: 64px;
+    --size-slot-gap: 8px;
+
+    /* ========== 其他變數 ========== */
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-* {
-    font-family: Geneva, sans-serif;
+    font-family: Geneva, "Noto Sans TC", sans-serif;
 }
 
 body {
@@ -23,9 +76,81 @@ body {
 
 
 /* ====================== 共用區 ====================== */
+
+/* ========== Utility Classes: 裝飾樣式 ========== */
+
+/** 膠囊形狀（pill shape） */
+.u-pill {
+    border-radius: var(--size-border-radius-pill);
+}
+
+/** 內凹陰影（inner shadow） */
+.u-inner-shadow {
+    box-shadow:
+        inset 1px 1px 0 0 var(--color-highlight),
+        inset -1px -1px 0 0 var(--color-highlight),
+        inset 0 5px 5px -2px var(--color-highlight);
+}
+
+/** 內凹陰影（輕微） */
+.u-inner-shadow--light {
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 25%),
+        inset -1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 1px 0 0 0 rgb(255 255 255 / 25%);
+}
+
+/** 內凹陰影（深） */
+.u-inner-shadow--deep {
+    box-shadow:
+        inset 0 1px 0 0 rgb(255 255 255 / 25%),
+        inset -1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
+}
+
+/** 外部陰影（按鈕風格） */
+.u-shadow-button {
+    box-shadow:
+        var(--color-shine-bright) 0 1px 0,
+        var(--color-shine-medium) 0 -0.5px 1px,
+        rgb(60 70 76 / 37.5%) 0 1px 1px;
+}
+
+/** 外部陰影（框線風格） */
+.u-shadow-frame {
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 75%),
+        0 2px 1px rgb(0 0 0 / 75%);
+}
+
+/** 外部陰影（格子風格） */
+.u-shadow-grid {
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 75%),
+        0 3px 1px rgb(0 0 0 / 12.5%);
+}
+
+/** 外部陰影（底部邊線） */
+.u-shadow-border-bottom {
+    box-shadow: 0 1px 0 0 var(--color-highlight);
+}
+
+/** 外部陰影（頂部光澤） */
+.u-shadow-shine-top {
+    box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
+}
+
+/** 外部陰影（發光效果） */
+.u-shadow-glow {
+    box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+}
+
+/* ========== 基礎樣式 ========== */
+
 .inventory,
 .inventory * {
-    border-radius: 8px;
+    border-radius: var(--size-border-radius-default);
 }
 
 /* .container {} */
@@ -43,21 +168,21 @@ body {
 
     position: relative;
 
-    padding: 0.125rem 1rem;
+    padding: var(--size-button-padding-y) var(--size-button-padding-x);
     border: 1px solid rgb(60 70 76 / 62.5%);
     border-bottom: 3px solid rgb(60 70 76 / 62.5%);
-    border-radius: var(--border-radius-pill);
+    border-radius: var(--size-border-radius-pill);
 
     font-weight: bold;
-    color: #eee;
-    text-shadow: var(--text-shadow);
+    color: var(--color-text-primary);
+    text-shadow: var(--color-shadow-text);
 
     background: linear-gradient(to bottom,
-            color-mix(in srgb, #a1a9b4 90%, white),
-            color-mix(in srgb, #a1a9b4 90%, black)) padding-box;
+            color-mix(in srgb, var(--color-bg-button-default) 90%, white),
+            color-mix(in srgb, var(--color-bg-button-default) 90%, black)) padding-box;
     box-shadow:
-        inset 0 1px 0 rgb(255 255 255 / 37.5%),
-        inset 0 -1px 1px rgb(255 255 255 / 25%),
+        inset 0 1px 0 var(--color-shine-bright),
+        inset 0 -1px 1px var(--color-shine-medium),
         0 1px 1px rgb(60 70 76 / 37.5%);
 }
 
@@ -66,15 +191,18 @@ body {
 }
 
 .btn--action {
-    border: 1px solid #3297b2;
-    border-bottom: 3px solid #3297b2;
+    --btn-action-border: var(--color-border-action);
+    --btn-action-bg: var(--color-bg-button-action);
+
+    border: 1px solid var(--btn-action-border);
+    border-bottom: 3px solid var(--btn-action-border);
     background: linear-gradient(to bottom,
-            color-mix(in srgb, #36b8d0 90%, white),
-            color-mix(in srgb, #36b8d0 90%, black));
+            color-mix(in srgb, var(--btn-action-bg) 90%, white),
+            color-mix(in srgb, var(--btn-action-bg) 90%, black));
 }
 
 .btn--action:active {
-    border: 1px solid #3297b2;
+    border: 1px solid var(--btn-action-border);
 }
 
 .btn--disabled {
@@ -82,19 +210,18 @@ body {
 }
 
 .btn--black {
-    border: 1px solid rgb(36 41 46 / 62.5%);
-    border-bottom: 3px solid rgb(36 41 46 / 62.5%);
+    border: 1px solid var(--color-border-black);
+    border-bottom: 3px solid var(--color-border-black);
 
-    color: #c5cfd8;
+    color: var(--color-text-light);
 
     background: linear-gradient(to bottom,
-            color-mix(in srgb, #313a43 95%, white),
-            color-mix(in srgb, #313a43 95%, black)) padding-box;
+            color-mix(in srgb, var(--color-bg-button-black) 95%, white),
+            color-mix(in srgb, var(--color-bg-button-black) 95%, black)) padding-box;
     box-shadow:
         inset 0 1px 0 rgb(214 219 255 / 37.5%),
         inset 0 -1px 1px rgb(214 219 255 / 12.5%),
         0 1px 1px rgb(36 41 46 / 37.5%);
-
 }
 
 /* ====================== 物品欄 ====================== */
@@ -102,26 +229,25 @@ body {
     display: inline-block;
 
     margin: 10px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border-primary);
 
-    color: rgb(47 54 59 / 87.5%);
+    color: var(--color-text-muted);
 
-    background-color: rgb(28 41 49 / 75%);
+    background-color: var(--color-bg-inventory);
     box-shadow:
-        inset 1px 1px 0 0 rgb(199 218 255 / 12.5%),
-        inset -1px -1px 0 0 rgb(199 218 255 / 12.5%),
-        inset 0 5px 5px -2px rgb(199 218 255 / 12.5%);
+        inset 1px 1px 0 0 var(--color-highlight),
+        inset -1px -1px 0 0 var(--color-highlight),
+        inset 0 5px 5px -2px var(--color-highlight);
 }
 
 /* ============= 頂部／導覽 ============= */
 .inventory__nav {
-    padding: var(--inventory-padding-y) var(--inventory-padding-x) 0;
-    border-bottom: 1px solid var(--border);
+    padding: var(--size-padding-y) var(--size-padding-x) 0;
+    border-bottom: 1px solid var(--color-border-primary);
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 
-    box-shadow:
-        0 1px 0 0 rgb(199 218 255 / 12.5%);
+    box-shadow: var(--color-highlight) 0 1px 0 0;
 }
 
 .inventory__title {
@@ -129,13 +255,13 @@ body {
 
     font-family: Geneva, sans-serif;
     font-weight: bolder;
-    color: #d0f000;
-    text-shadow: var(--text-shadow), var(--text-shadow);
+    color: var(--color-text-title);
+    text-shadow: var(--color-shadow-text), var(--color-shadow-text);
 }
 
 .inventory__tabs {
     display: flex;
-    gap: 8px;
+    gap: var(--size-gap-medium);
 }
 
 .inventory__tab-item {
@@ -146,17 +272,17 @@ body {
     flex: 1;
 
     padding: 4px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--color-border-primary);
     border-bottom: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 
     font-weight: bold;
-    color: #aeb8c4;
+    color: var(--color-text-secondary);
     text-align: center;
-    text-shadow: var(--text-shadow);
+    text-shadow: var(--color-shadow-text);
 
-    background-color: #6b7785;
+    background-color: var(--color-bg-tab);
     box-shadow:
         inset 0 1px 0 0 rgb(255 255 255 / 25%),
         inset -1px 0 0 0 rgb(255 255 255 / 25%),
@@ -166,21 +292,21 @@ body {
 
 .inventory__tab-item.action {
     top: -1px;
-    color: white;
+    color: var(--color-text-white);
     background: linear-gradient(to bottom,
-            color-mix(in srgb, #36b8d0 90%, white),
-            color-mix(in srgb, #36b8d0 90%, black));
+            color-mix(in srgb, var(--color-bg-tab-action) 90%, white),
+            color-mix(in srgb, var(--color-bg-tab-action) 90%, black));
 }
 
 /* ============= 主要內容 ============= */
 .inventory__container {
-    padding: 0.625rem var(--inventory-padding-x);
+    padding: var(--size-padding-compact) var(--size-padding-x);
 }
 
 /* ==== 主要區域 ==== */
 .inventory__main {
-    padding: 0.625rem;
-    background-color: #d0d4d7;
+    padding: var(--size-padding-compact);
+    background-color: var(--color-bg-main);
     box-shadow:
         inset 0 0 0 1px rgb(255 255 255 / 75%),
         0 2px 1px rgb(0 0 0 / 75%);
@@ -196,12 +322,12 @@ body {
 
 .inventory__controls-left {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--size-gap-small);
 }
 
 .inventory__controls-right {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--size-gap-small);
     align-items: center;
     font-family: Geneva, sans-serif;
 }
@@ -216,13 +342,13 @@ body {
 }
 
 .capacity__count {
-    padding: 0.125rem 1rem;
-    border-radius: var(--border-radius-pill);
+    padding: var(--size-padding-tiny) var(--size-button-padding-x);
+    border-radius: var(--size-border-radius-pill);
 
     font-weight: bolder;
-    color: #6f7c85;
+    color: var(--color-text-count);
 
-    background-color: #afb7bd;
+    background-color: var(--color-bg-capacity);
     box-shadow:
         inset 0 1px 1px 0 rgb(0 0 0 / 25%),
         inset 0 -0.5px 1px 0 rgb(0 0 0 / 12.5%),
@@ -230,18 +356,18 @@ body {
 }
 
 .capacity__count span {
-    color: #fff;
+    color: var(--color-text-white);
 }
 
 /* 物品格子區 */
 .inventory__grid {
     display: inline-grid;
     grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
-    gap: 8px;
+    gap: var(--size-slot-gap);
 
     padding: 0.75rem;
 
-    background-color: #eee;
+    background-color: var(--color-bg-grid);
     box-shadow:
         inset 0 0 0 1px rgb(255 255 255 / 75%),
         0 3px 1px rgb(0 0 0 / 12.5%);
@@ -251,9 +377,9 @@ body {
     position: relative;
 
     aspect-ratio: 1/1;
-    width: 64px;
+    width: var(--size-slot-width);
 
-    background-color: #e2e2e2;
+    background-color: var(--color-bg-slot);
     box-shadow:
         inset 0 1px 0 rgb(0 0 0 / 5%),
         inset 0 2px 5px rgb(0 0 0 / 12.5%),
@@ -261,7 +387,7 @@ body {
 }
 
 .inventory__slot.action {
-    background-color: #50CAE0;
+    background-color: var(--color-bg-slot-active);
     box-shadow:
         0 1px 0 rgb(255 255 255 / 100%);
 }
@@ -271,7 +397,6 @@ body {
     bottom: 1px;
 
     font-weight: bold;
-    color: white;
     color: transparent;
 
     background: linear-gradient(to bottom, #fff, #9CF);
@@ -283,7 +408,7 @@ body {
 /* 金錢顯示、物品強化或使用的快速導航按鈕 */
 .inventory__status {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--size-gap-small);
     align-items: center;
     justify-content: space-between;
 
@@ -293,7 +418,7 @@ body {
 .inventory__currency,
 .inventory__status-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--size-gap-small);
 }
 
 .inventory__currency {
@@ -309,14 +434,13 @@ body {
     justify-content: flex-end;
 
     max-width: 256px;
-    padding: 0.125rem 0.5rem;
-    border-radius: var(--border-radius-pill);
+    padding: var(--size-padding-tiny) var(--size-padding-small);
+    border-radius: var(--size-border-radius-pill);
 
     line-height: 1.5rem;
 
     background-color: white;
-    box-shadow:
-        0 -2px 1px rgb(0 0 0 / 12.5%);
+    box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
 }
 
 .inventory__currency-icon {
@@ -326,13 +450,13 @@ body {
 }
 
 .inventory__currency-icon.money {
-    color: #e6940f;
+    color: var(--color-currency-money);
 
-    -webkit-text-stroke: 3px #ffde52;
+    -webkit-text-stroke: 3px var(--color-currency-money-shine);
 }
 
 .inventory__currency-icon.point {
-    color: gray;
+    color: var(--color-currency-point);
 }
 
 .inventory__status-actions {
@@ -350,7 +474,7 @@ body {
 .inventory__search-bar,
 .inventory__utility-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--size-gap-small);
 }
 
 .inventory__search-bar {
@@ -362,13 +486,13 @@ body {
     flex: 1;
 
     max-width: 256px;
-    padding: 0.25rem 1rem;
+    padding: 0.25rem var(--size-padding-x);
     border: 1px solid rgb(0 0 0 / 25%);
-    border-radius: var(--border-radius-pill);
+    border-radius: var(--size-border-radius-pill);
 
-    color: white;
+    color: var(--color-text-white);
 
-    background-color: rgb(0 0 0 / 12.5%);
+    background-color: var(--color-bg-search);
     box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
 }
 
@@ -379,5 +503,4 @@ body {
 .search-icon {
     position: relative;
     right: 2.5rem;
-
 }

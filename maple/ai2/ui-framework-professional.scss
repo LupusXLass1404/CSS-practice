@@ -1,0 +1,982 @@
+/**
+ * ============================================================================
+ * 遊戲 UI 框架 - 專業 SCSS 架構 (Gaming UI Framework - Professional SCSS)
+ * ============================================================================
+ *
+ * 架構說明：
+ * - 完全巢狀化：所有子元素使用 & 語法嵌套在父元素內
+ * - 狀態管理：所有 :hover、:active、:focus 直接寫在元素內部
+ * - 代碼複用：使用 @mixin 提取重複邏輯
+ * - 變數管理：所有設計 token 使用 SCSS 變數定義
+ *
+ * 編譯說明：
+ * 使用 node-sass 或 dart-sass 編譯：
+ * $ sass ui-framework.scss ui-framework.css
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap');
+
+/* ============================================================================
+   第一段：SCSS 變數定義 (Variables)
+   ============================================================================ */$color-border-primary
+$color-border-light: #3c464c;
+$color-border-action: $color-primary;
+$color-border-black: rgb(36 41 46 / 62.5%);$color-text-primary
+$color-text-secondary: #aeb8c4;
+$color-text-light: #c5cfd8;
+$color-text-muted: rgb(47 54 59 / 87.5%);
+$color-text-title: $color-accent;
+$color-text-count: #6f7c85;
+$color-text-white: white;
+
+// ============ 背景顏色 ============
+$color-bg-panel: rgb(28 41 49 / 75%);$color-bg-panel
+$color-bg-tab: $color-secondary;
+$color-bg-tab-active: $color-primary;
+$color-bg-content: $color-light;
+$color-bg-grid: #eee;
+$color-bg-slot: #e2e2e2;
+$color-bg-slot-active: $color-primary;
+$color-bg-button-default: #a1a9b4;
+$color-bg-button-action: $color-primary;
+$color-bg-button-black: $color-dark;
+$color-bg-statusbar: #afb7bd;
+$color-bg-search: rgb(0 0 0 / 12.5%);
+
+// ============ 陰影和光澤 ============
+$shadow-text: 1px 1px 0 rgb(0 0 0 / 25%);$shadow-text
+$color-highlight: rgb(199 218 255 / 12.5%);
+$color-shine-bright: rgb(255 255 255 / 37.5%);
+$color-shine-medium: rgb(255 255 255 / 25%);
+$color-shine-light: rgb(255 255 255 / 12.5%);
+
+// ============ 貨幣和狀態 ============
+$color-currency-gold: #e6940f;$color-currency-gold
+$color-currency-gold-shine: #ffde52;
+$color-currency-point: gray;
+
+// ============ 間距系統 ============
+$spacing-xs: 0.125rem;$spacing-xs
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 0.75rem;
+$spacing-xl: 1.5rem;
+
+// ============ 填充系統 ============
+$padding-horizontal: $spacing-md;$padding-horizontal
+$padding-vertical: $spacing-md;
+$padding-compact: 0.625rem;
+
+// ============ 間隙系統 ============
+$gap-small: $spacing-sm;$gap-small
+$gap-medium: 8px;
+$gap-large: 12px;
+
+// ============ 圓角系統 ============
+$radius-pill: 50rem;$radius-pill
+$radius-default: 8px;
+$radius-compact: 4px;
+
+// ============ 組件特定尺寸 ============
+$button-padding-x: $spacing-md;$button-padding-x
+$button-padding-y: $spacing-xs;
+$slot-width: 64px;
+$slot-gap: 8px;
+$panel-min-width: 320px;
+$panel-max-width: none;
+
+// ============ 轉場時間 ============
+$duration-transition: 0.1s;$duration-transition
+$duration-transition-slow: 0.2s;
+$duration-transition-very-slow: 0.15s;
+
+/* ============================================================================
+   第二段：SCSS Mixins 定義 (Mixins)
+   ============================================================================ */
+
+/**
+ * @mixin glass-panel
+ * 玻璃面板效果：背景色混合 + 內陰影
+ * 用於：面板、內容區域等需要層疊深度的元素
+ */
+@mixin glass-panel($bg-color: $color-bg-panel, $highlight: $color-highlight) {
+    background-color: $bg-color;
+    box-shadow:
+        inset 1px 1px 0 0 $highlight,
+        inset -1px -1px 0 0 $highlight,
+        inset 0 5px 5px -2px $highlight;
+}
+
+/**
+ * @mixin glass-panel-light
+ * 輕微玻璃效果：淡化的內陰影
+ */
+@mixin glass-panel-light {
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 25%),
+        inset -1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 1px 0 0 0 rgb(255 255 255 / 25%);
+}
+
+/**
+ * @mixin glass-panel-deep
+ * 深層玻璃效果：淡化 + 底部漸變陰影
+ */
+@mixin glass-panel-deep {
+    box-shadow:
+        inset 0 1px 0 0 rgb(255 255 255 / 25%),
+        inset -1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 1px 0 0 0 rgb(255 255 255 / 25%),
+        inset 0 -15px 10px -10px rgb(0 0 0 / 37.5%);
+}
+
+/**
+ * @mixin pill-shape
+ * 膠囊形狀：圓角、邊框、漸變背景
+ * 用於：按鈕、搜尋框等圓形元素
+ */
+@mixin pill-shape(
+    $border-color: rgb(60 70 76 / 62.5%),
+    $bg-color: $color-bg-button-default,
+    $text-color: $color-text-primary
+) {
+    border: 1px solid $border-color;
+    border-bottom: 3px solid $border-color;
+    border-radius: $radius-pill;
+
+    color: $text-color;
+    text-shadow: $shadow-text;
+
+    background: linear-gradient(to bottom,
+        color-mix(in srgb, $bg-color 90%, white),
+        color-mix(in srgb, $bg-color 90%, black)) padding-box;
+}
+
+/**
+ * @mixin flex-center
+ * 彈性盒對齐：常用的 flexbox 對齐方式
+ * $direction: flex 方向 (row / column)
+ * $justify: justify-content 對齐
+ * $align: align-items 對齐
+ */
+@mixin flex-center($direction: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: $align;
+    justify-content: $justify;
+}
+
+/**
+ * @mixin flex-gap
+ * 彈性盒 + 間隙：flex 容器加上間隙
+ * $gap: 間隙大小
+ * $direction: flex 方向
+ */
+@mixin flex-gap($gap: $gap-small, $direction: row) {
+    display: flex;
+    flex-direction: $direction;
+    gap: $gap;
+}
+
+/**
+ * @mixin shadow-button
+ * 按鈕陰影：外部陰影效果
+ */
+@mixin shadow-button {
+    box-shadow:
+        $color-shine-bright 0 1px 0,
+        $color-shine-medium 0 -0.5px 1px,
+        rgb(60 70 76 / 37.5%) 0 1px 1px;
+}
+
+/**
+ * @mixin shadow-frame
+ * 框線陰影：框線風格
+ */
+@mixin shadow-frame {
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 75%),
+        0 2px 1px rgb(0 0 0 / 75%);
+}
+
+/**
+ * @mixin shadow-grid
+ * 網格陰影：格子風格
+ */
+@mixin shadow-grid {
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 75%),
+        0 3px 1px rgb(0 0 0 / 12.5%);
+}
+
+/**
+ * @mixin interactive-state
+ * 互動狀態：:hover 和 :active 的通用效果
+ * $hover-filter: hover 時的 filter 值
+ * $active-transform: active 時的 transform 值
+ */
+@mixin interactive-state($hover-filter: brightness(1.1), $active-transform: translateY(1px)) {
+    transition: all $duration-transition ease-in-out;
+
+    &:hover {
+        filter: $hover-filter;
+    }
+
+    &:active {
+        transform: $active-transform;
+    }
+}
+
+/**
+ * @mixin slot-base
+ * 格子基礎：寬高 + 背景 + 陰影 + 互動
+ */
+@mixin slot-base {
+    cursor: pointer;
+
+    position: relative;
+
+    aspect-ratio: 1/1;
+    width: $slot-width;
+    min-height: $slot-width;
+
+    background-color: $color-bg-slot;
+    box-shadow:
+        inset 0 1px 0 rgb(0 0 0 / 5%),
+        inset 0 2px 5px rgb(0 0 0 / 12.5%),
+        0 1px 0 rgb(255 255 255 / 100%);
+
+    transition: all $duration-transition-very-slow ease-in-out;
+}
+
+/**
+ * @mixin gradient-text
+ * 漸變文字效果
+ */
+@mixin gradient-text($gradient-from: #fff, $gradient-to: #9CF) {
+    font-weight: bold;
+    color: transparent;
+
+    background: linear-gradient(to bottom, $gradient-from, $gradient-to);
+    background-clip: text;
+
+    -webkit-text-stroke: 1px rgb(0 0 0);
+}
+
+/**
+ * @mixin responsive-slot
+ * 響應式格子調整
+ * $size: 格子新尺寸
+ */
+@mixin responsive-slot($size) {
+    & {
+        --size-slot-width: #{$size};
+    }
+}
+
+/* ============================================================================
+   第三段：基礎樣式重置 (Base Styles)
+   ============================================================================ */
+
+:root {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Geneva, "Noto Sans TC", sans-serif;
+}
+
+* {
+    border-radius: $radius-default;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Geneva, "Noto Sans TC", sans-serif;
+}
+
+/* ============================================================================
+   第四段：Utility Classes (工具類別)
+   ============================================================================ */
+
+.u-pill {
+    border-radius: $radius-pill;
+}
+
+.u-round {
+    border-radius: $radius-default;
+}
+
+.u-compact-round {
+    border-radius: $radius-compact;
+}
+
+.u-inner-shadow {
+    @include glass-panel($color-bg-panel, $color-highlight);
+}
+
+.u-inner-shadow--light {
+    @include glass-panel-light;
+}
+
+.u-inner-shadow--deep {
+    @include glass-panel-deep;
+}
+
+.u-shadow-button {
+    @include shadow-button;
+}
+
+.u-shadow-frame {
+    @include shadow-frame;
+}
+
+.u-shadow-grid {
+    @include shadow-grid;
+}
+
+.u-shadow-border-bottom {
+    box-shadow: 0 1px 0 0 $color-highlight;
+}
+
+.u-shadow-shine-top {
+    box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
+}
+
+.u-shadow-glow {
+    box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+}
+
+.ui-icon {
+    @include flex-center;
+
+    opacity: 0.5;
+    filter: grayscale(100%) brightness(200%);
+}
+
+/* ============================================================================
+   第五段：按鈕組件 (Button Component) - 完全巢狀
+   ============================================================================ */
+
+.btn {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding: $button-padding-y $button-padding-x;
+
+    @include pill-shape;
+    @include shadow-button;
+    @include interactive-state;
+
+    // ======== 按鈕狀態 ========
+    &:active {
+        border: 1px solid rgb(60 70 76 / 62.5%);
+    }
+
+    // ======== 按鈕修飾符 ========
+    &--action {
+        --btn-border: #{$color-border-action};
+        --btn-bg: #{$color-bg-button-action};
+
+        border: 1px solid var(--btn-border);
+        border-bottom: 3px solid var(--btn-border);
+        background: linear-gradient(to bottom,
+            color-mix(in srgb, var(--btn-bg) 90%, white),
+            color-mix(in srgb, var(--btn-bg) 90%, black));
+
+        &:active {
+            border: 1px solid var(--btn-border);
+        }
+    }
+
+    &--disabled {
+        cursor: not-allowed;
+        color: rgb(255 255 255 / 62.5%);
+        opacity: 0.6;
+    }
+
+    &--black {
+        border: 1px solid $color-border-black;
+        border-bottom: 3px solid $color-border-black;
+
+        color: $color-text-light;
+
+        background: linear-gradient(to bottom,
+            color-mix(in srgb, $color-bg-button-black 95%, white),
+            color-mix(in srgb, $color-bg-button-black 95%, black)) padding-box;
+        box-shadow:
+            inset 0 1px 0 rgb(214 219 255 / 37.5%),
+            inset 0 -1px 1px rgb(214 219 255 / 12.5%),
+            0 1px 1px rgb(36 41 46 / 37.5%);
+    }
+
+    &--small {
+        padding: 0.08rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    &--large {
+        padding: 0.2rem 1.2rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* ============================================================================
+   第六段：面板組件 (Panel Component) - 完全巢狀
+   ============================================================================ */
+
+.ui-panel {
+    display: inline-block;
+
+    width: auto;
+    min-width: $panel-min-width;
+    max-width: $panel-max-width;
+    margin: 10px;
+    border: 1px solid $color-border-primary;
+
+    color: $color-text-muted;
+
+    @include glass-panel;
+
+    // ======== 面板頭部 ========
+    &__header {
+        padding: $padding-vertical $padding-horizontal 0;
+        border-bottom: 1px solid $color-border-primary;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+
+        box-shadow: $color-highlight 0 1px 0 0;
+
+        // ---- 標題 ----
+        &-title {
+            margin-bottom: 0.75rem;
+
+            font-family: Geneva, sans-serif;
+            font-weight: bolder;
+            color: $color-text-title;
+            text-shadow: $shadow-text, $shadow-text;
+
+            &-secondary {
+                font-size: 0.9rem;
+                font-weight: normal;
+                color: $color-text-secondary;
+            }
+        }
+    }
+
+    // ======== 分頁組件（嵌套在面板內） ========
+    &__tabs {
+        @include flex-gap($gap-medium);
+
+        // ---- 單一標籤 ----
+        &-item {
+            cursor: pointer;
+
+            position: relative;
+
+            flex: 1;
+
+            padding: 4px;
+            border: 1px solid $color-border-primary;
+            border-bottom: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+
+            font-weight: bold;
+            color: $color-text-secondary;
+            text-align: center;
+            text-shadow: $shadow-text;
+
+            background-color: $color-bg-tab;
+
+            @include glass-panel-deep;
+
+            transition: all $duration-transition-slow ease-in-out;
+
+            // ---- 標籤懸停 ----
+            &:hover {
+                background-color: color-mix(in srgb, $color-bg-tab, white 10%);
+            }
+
+            // ---- 標籤激活 ----
+            &.active,
+            &--active {
+                top: -1px;
+                color: $color-text-white;
+                background: linear-gradient(to bottom,
+                    color-mix(in srgb, $color-bg-tab-active 90%, white),
+                    color-mix(in srgb, $color-bg-tab-active 90%, black));
+            }
+        }
+    }
+
+    // ======== 內容容器 ========
+    &__content {
+        padding: $padding-compact $padding-horizontal;
+    }
+
+    // ======== 面板主體 ========
+    &__body {
+        padding: $padding-compact;
+        background-color: $color-bg-content;
+
+        @include shadow-frame;
+    }
+
+    // ======== 控制條 ========
+    &__control-bar {
+        @include flex-gap($gap-small);
+
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+
+        &-left {
+            @include flex-gap($gap-small);
+        }
+
+        &-right {
+            @include flex-gap($gap-small);
+
+            align-items: center;
+            font-family: Geneva, sans-serif;
+        }
+    }
+
+    // ======== 底部操作區 ========
+    &__footer {
+        @include flex-gap($gap-small);
+
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 0.75rem;
+    }
+
+    // ======== 面板修飾符 ========
+    &--fullwidth {
+        display: block;
+        width: 100%;
+    }
+
+    &--fixed {
+        width: 400px;
+    }
+
+    &--centered {
+        margin: 10px auto;
+    }
+}
+
+/* 標籤快捷別名（為了相容性） */
+.ui-tabs {
+    @include flex-gap($gap-medium);
+
+    .ui-tab {
+        cursor: pointer;
+
+        position: relative;
+
+        flex: 1;
+
+        padding: 4px;
+        border: 1px solid $color-border-primary;
+        border-bottom: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+
+        font-weight: bold;
+        color: $color-text-secondary;
+        text-align: center;
+        text-shadow: $shadow-text;
+
+        background-color: $color-bg-tab;
+
+        @include glass-panel-deep;
+
+        transition: all $duration-transition-slow ease-in-out;
+
+        &:hover {
+            background-color: color-mix(in srgb, $color-bg-tab, white 10%);
+        }
+
+        &.active {
+            top: -1px;
+            color: $color-text-white;
+            background: linear-gradient(to bottom,
+                color-mix(in srgb, $color-bg-tab-active 90%, white),
+                color-mix(in srgb, $color-bg-tab-active 90%, black));
+        }
+    }
+}
+
+/* ============================================================================
+   第七段：狀態條組件 (Status Bar Component) - 完全巢狀
+   ============================================================================ */
+
+.ui-status-bar {
+    position: relative;
+
+    @include flex-center(row, flex-end, center);
+
+    flex: 1;
+
+    max-width: 256px;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-pill;
+
+    line-height: 1.5rem;
+
+    background-color: white;
+    box-shadow: 0 -2px 1px rgb(0 0 0 / 12.5%);
+
+    // ======== 圖標 ========
+    &__icon {
+        position: absolute;
+        left: 0.5rem;
+        font-size: 1.5rem;
+
+        // ---- 金幣圖標 ----
+        &--gold {
+            color: $color-currency-gold;
+
+            -webkit-text-stroke: 3px $color-currency-gold-shine;
+        }
+
+        // ---- 點數圖標 ----
+        &--point {
+            color: $color-currency-point;
+        }
+    }
+
+    // ======== 數值 ========
+    &__value {
+        margin-left: 1.5rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    // ======== 標籤 ========
+    &__label {
+        display: inline-block;
+
+        font-size: 1rem;
+        font-weight: bold;
+        color: hsl(0deg 0% 0% / 0%);
+        text-shadow: rgb(136 153 163) 0 0 1px, rgb(116 133 143 / 50%) 1px 0 0, rgb(255 255 255 / 75%) 0 1px 1px;
+    }
+}
+
+/* ============================================================================
+   第八段：網格組件 (Grid Component) - 完全巢狀
+   ============================================================================ */
+
+.ui-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(auto-fill, minmax($slot-width, 1fr));
+    gap: $slot-gap;
+
+    padding: 0.75rem;
+
+    background-color: $color-bg-grid;
+
+    @include shadow-grid;
+
+    // ======== 網格修飾符 ========
+    &--fixed {
+        grid-template-columns: repeat(16, minmax($slot-width, 1fr));
+    }
+
+    &--4col {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    &--fullwidth {
+        display: grid;
+        width: 100%;
+    }
+}
+
+/* ============================================================================
+   第九段：格子組件 (Slot Component) - 完全巢狀
+   ============================================================================ */
+
+.ui-slot {
+    @include slot-base;
+
+    // ======== 格子內容 ========
+    &__content {
+        @include flex-center;
+
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    // ======== 格子文字 ========
+    &__text {
+        position: absolute;
+        bottom: 1px;
+
+        @include gradient-text;
+    }
+
+    // ======== 格子徽章 ========
+    &__badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+
+        min-width: 20px;
+        height: 20px;
+        padding: 0 4px;
+        border-radius: 50%;
+
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: white;
+
+        background-color: $color-primary;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
+
+        @include flex-center;
+    }
+
+    // ======== 格子狀態 ========
+    &:hover {
+        transform: scale(1.02);
+        filter: brightness(1.05);
+    }
+
+    // ---- 激活/選中 ----
+    &.active,
+    &.selected,
+    &--active {
+        background-color: $color-bg-slot-active;
+        box-shadow:
+            0 1px 0 rgb(255 255 255 / 100%),
+            0 0 8px $color-primary;
+    }
+
+    // ---- 空格子 ----
+    &.empty,
+    &--empty {
+        opacity: 0.5;
+        background-color: rgb(200 200 200 / 30%);
+    }
+
+    // ---- 禁用 ----
+    &.disabled,
+    &--disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+        filter: grayscale(100%);
+    }
+}
+
+/* ============================================================================
+   第十段：搜尋條組件 (Search Bar Component) - 完全巢狀
+   ============================================================================ */
+
+.ui-search-bar {
+    @include flex-gap($gap-small);
+
+    position: relative;
+    flex-grow: 1;
+    align-items: center;
+    margin-top: 0.75rem;
+
+    // ======== 搜尋輸入框 ========
+    &__input {
+        flex: 1;
+
+        max-width: 256px;
+        padding: 0.25rem $padding-horizontal;
+        border: 1px solid rgb(0 0 0 / 25%);
+        border-radius: $radius-pill;
+
+        font-size: 0.95rem;
+        color: $color-text-white;
+
+        background-color: $color-bg-search;
+        box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+
+        transition: all $duration-transition-slow ease-in-out;
+
+        // ---- 焦點狀態 ----
+        &:focus {
+            background-color: rgb(0 0 0 / 25%);
+            outline: none;
+            box-shadow: rgb(255 255 255 / 35%) 0 1px 3px 0;
+        }
+
+        // ---- 佔位符 ----
+        &::placeholder {
+            font-size: 1rem;
+            color: rgb(255 255 255 / 50%);
+        }
+    }
+
+    // ======== 搜尋圖標 ========
+    &__icon {
+        pointer-events: none;
+        position: relative;
+        right: 2.5rem;
+        color: rgb(255 255 255 / 50%);
+    }
+}
+
+/* 別名相容性 */
+.ui-search-input {
+    flex: 1;
+
+    max-width: 256px;
+    padding: 0.25rem $padding-horizontal;
+    border: 1px solid rgb(0 0 0 / 25%);
+    border-radius: $radius-pill;
+
+    font-size: 0.95rem;
+    color: $color-text-white;
+
+    background-color: $color-bg-search;
+    box-shadow: rgb(255 255 255 / 25%) 0 1px 2px 0;
+
+    transition: all $duration-transition-slow ease-in-out;
+
+    &::placeholder {
+        font-size: 1rem;
+        color: rgb(255 255 255 / 50%);
+    }
+
+    &:focus {
+        background-color: rgb(0 0 0 / 25%);
+        outline: none;
+        box-shadow: rgb(255 255 255 / 35%) 0 1px 3px 0;
+    }
+}
+
+.ui-search-icon {
+    pointer-events: none;
+    position: relative;
+    right: 2.5rem;
+    color: rgb(255 255 255 / 50%);
+}
+
+/* ============================================================================
+   第十一段：數值顯示組件 (Value Box Component) - 完全巢狀
+   ============================================================================ */
+
+.ui-value-box {
+    padding: $spacing-xs $button-padding-x;
+    border-radius: $radius-pill;
+
+    font-weight: bolder;
+    color: $color-text-count;
+
+    background-color: $color-bg-statusbar;
+    box-shadow:
+        inset 0 1px 1px 0 rgb(0 0 0 / 25%),
+        inset 0 -0.5px 1px 0 rgb(0 0 0 / 12.5%),
+        0 1px 1px 0 rgb(255 255 255 / 50%);
+
+    // ======== 數值強調 ========
+    span {
+        font-weight: 900;
+        color: $color-text-white;
+    }
+
+    // ======== 高亮修飾符 ========
+    &.highlight,
+    &--highlight {
+        color: $color-primary;
+        background: linear-gradient(135deg, rgb(54 184 208 / 20%), rgb(54 184 208 / 10%));
+    }
+}
+
+/* ============================================================================
+   第十二段：操作組件 (Action Group Component) - 完全巢狀
+   ============================================================================ */
+
+.ui-action-group {
+    @include flex-gap($gap-small);
+
+    align-items: center;
+
+    // ======== 對齐變體 ========
+    &--left {
+        flex-grow: 1;
+    }
+
+    &--center {
+        justify-content: center;
+    }
+
+    &--right {
+        justify-content: flex-end;
+    }
+}
+
+/* ============================================================================
+   第十三段：響應式設計 (Responsive Design)
+   ============================================================================ */
+
+// ======== 平板設備 (768px 以下) ========
+@media (max-width: 768px) {
+    :root {
+        --size-panel-min-width: 280px;
+    }
+
+    .ui-grid {
+        &--fixed {
+            grid-template-columns: repeat(8, minmax($slot-width, 1fr));
+        }
+    }
+
+    .ui-panel {
+        &--fixed {
+            width: 100%;
+            max-width: calc(100% - 20px);
+        }
+
+        &__control-bar {
+            flex-direction: column;
+            align-items: flex-start;
+
+            &-right {
+                justify-content: space-between;
+                width: 100%;
+            }
+        }
+    }
+}
+
+// ======== 手機設備 (480px 以下) ========
+@media (max-width: 480px) {
+    :root {
+        --size-slot-width: 48px;
+        --size-slot-gap: 6px;
+    }
+
+    .ui-grid {
+        &--fixed {
+            grid-template-columns: repeat(4, minmax($slot-width, 1fr));
+        }
+    }
+
+    .ui-tabs {
+        gap: $gap-small;
+    }
+
+    .ui-tab {
+        padding: 2px;
+        font-size: 0.85rem;
+    }
+
+    .btn {
+        padding: 0.1rem 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .ui-search-input {
+        font-size: 0.9rem;
+    }
+}
